@@ -8,7 +8,7 @@ namespace CMS.Data
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -16,14 +16,19 @@ namespace CMS.Data
             base.OnModelCreating(modelBuilder);
 
             var spaceId = Guid.NewGuid();
-            var contentTypesData = SeedDummy.GetContentTypes(spaceId);
+            var organizationsList = SeedDummy.GetOrganizations();
+            var spacesList = SeedDummy.GetSpaces(new List<Guid> { spaceId }, organizationsList[0]);
 
-            
-            modelBuilder.ApplyConfiguration(new SpaceContextConfiguration(new Guid[] { spaceId }));
-            modelBuilder.ApplyConfiguration(new ContentTypeContextConfiguration(contentTypesData));
+            var contentTypesData = SeedDummy.GetContentTypes(spaceId);
             var basicFields = SeedDummy.GetBasicFields(contentTypesData);
-            modelBuilder.Entity<BasicField>().HasData(basicFields);
+            modelBuilder.ApplyConfiguration(new ContentTypeContextConfiguration(contentTypesData));
             modelBuilder.ApplyConfiguration(new ContentTypeReferencesContextConfiguration(contentTypesData));
+
+            modelBuilder.Entity<Organization>().HasData(organizationsList);
+            modelBuilder.Entity<Space>().HasData(spacesList);
+            modelBuilder.Entity<User>().HasData(SeedDummy.GetUsers(organizationsList));
+            modelBuilder.Entity<BasicField>().HasData(basicFields);
+
         }
 
         public DbSet<Space> Spaces { get; set; }

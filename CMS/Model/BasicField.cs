@@ -6,6 +6,7 @@ namespace CMS.Model
     {
         [Key]
         public Guid Id { get; set; }
+        [Required]
         public string Name { get; set; }
         public CMS_TYPE Type { get; set; }
         public string Value { get; set; }

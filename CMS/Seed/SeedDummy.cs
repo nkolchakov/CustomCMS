@@ -102,5 +102,42 @@ namespace CMS.Seed
 
             return new ContentType[] { Trailer, Description, Game, Publisher };
         }
+
+        public static IList<Space> GetSpaces(IList<Guid> ids, Organization org)
+        {
+            return new List<Space>() {
+                new Space()
+                {
+                    Id = ids[0],
+                    Name = "Game shop",
+                    OrganizationId = org.Id
+                }
+            };
+        }
+
+        public static IList<Organization> GetOrganizations()
+        {
+            return new List<Organization>()
+            {
+                new Organization()
+                {
+                    Name = "Org1",
+                    Id=Guid.NewGuid()
+                }
+            };
+        }
+
+        public static IList<User> GetUsers(IList<Organization> organizations)
+        {
+            return new List<User>()
+            {
+                new User()
+                {
+                    Id = Guid.NewGuid(),
+                    UserRole = UserRole.Admin,
+                    OrganizationId=  organizations[0].Id
+                }
+            };
+        }
     }
 }

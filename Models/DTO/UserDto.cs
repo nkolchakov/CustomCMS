@@ -12,7 +12,6 @@ namespace Models.DTO
         public Guid Id { get; set; }
 
         public UserRole UserRole { get; set; }
-        public ICollection<OrganizationDto> Organizations { get; set; } = new List<OrganizationDto>();
 
     }
 }

@@ -24,7 +24,10 @@ namespace DataServices
             var organizationsForUser = await this._context.Organizations
                 .Where(o => o.OrganizationUser
                 .Any(u => u.UserId == userId)
-                ).Include(o => o.Spaces)
+                )
+                .Include(o => o.OrganizationUser)
+                .ThenInclude(ou => ou.User)
+                .Include(o => o.Spaces)
                 .ToListAsync();
 
             return _mapper.Map<IEnumerable<Organization>, IEnumerable<OrganizationDto>>(organizationsForUser);

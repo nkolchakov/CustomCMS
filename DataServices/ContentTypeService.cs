@@ -1,25 +1,21 @@
-﻿using CMS.Data;
+﻿using AutoMapper;
+using CMS.Data;
 using CMS.Interfaces;
-using CMS.Model;
+using DataServices;
 using EntityFrameworkCore.RawSQLExtensions.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Models.DTO;
 
 namespace CMS.DataServices
 {
-    public class ContentTypeService : IContentTypeService, IDisposable
+    public class ContentTypeService : DbFactoryFetcher, IContentTypeService
     {
-        private readonly ApplicationDbContext _context;
-        public ContentTypeService(IDbContextFactory<ApplicationDbContext> dbContextFactory)
+        public ContentTypeService(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMapper mapper)
+            : base(dbContextFactory, mapper)
         {
-            this._context = dbContextFactory.CreateDbContext();
         }
 
-        public void Dispose()
-        {
-            this._context.Dispose();
-        }
-
-        public async Task<IEnumerable<ContentType>> GetEntityById(Guid id)
+        public async Task<IEnumerable<ContentTypeDto>> GetEntityById(Guid id)
         {
             FormattableString sql = $@"WITH CHAIN
                     AS (
@@ -34,7 +30,7 @@ namespace CMS.DataServices
             try
             {
                 var dtContentTypes = await this._context.Database.SqlQuery(sql.ToString()).ToDataTableAsync();
-                var idsToFetch = new List<Guid>() { id};
+                var idsToFetch = new List<Guid>() { id };
 
                 for (int i = 0; i < dtContentTypes.Rows.Count; i++)
                 {
@@ -47,8 +43,8 @@ namespace CMS.DataServices
                     .Include(c => c.BasicFields)
                     .ToListAsync();
 
-                return allContentTypeList;
-                
+                return allContentTypeList.Select(c => _mapper.Map<ContentTypeDto>(c));
+
             }
             catch (Exception ex)
             {

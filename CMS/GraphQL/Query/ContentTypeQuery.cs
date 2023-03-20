@@ -1,9 +1,12 @@
-﻿using CMS.Interfaces;
+﻿using CMS.Data;
+using CMS.Interfaces;
 using CMS.Model;
-using HotChocolate.Data;
-namespace CMS.Data
+using Models.DTO;
+
+namespace CMS.GraphQL.Query
 {
-    public class Query
+    [ExtendObjectType("Query")]
+    public class ContentTypeQuery
     {
         [UseProjection]
         [UseFiltering]
@@ -15,7 +18,7 @@ namespace CMS.Data
 
         [UseFiltering]
         [UseSorting]
-        public async Task<IEnumerable<ContentType>> GetEntityById(Guid id, [Service] IContentTypeService contentService)
+        public async Task<IEnumerable<ContentTypeDto>> GetEntityById(Guid id, [Service] IContentTypeService contentService)
         {
             if (contentService == null)
             {

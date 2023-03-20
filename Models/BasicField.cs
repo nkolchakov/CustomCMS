@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace CMS.Model
 {
@@ -14,16 +15,5 @@ namespace CMS.Model
 
         public Guid ContentTypeId { get; set; }
         public ContentType ContentType { get; set; }
-    }
-
-    public enum CMS_TYPE
-    {
-        Text,
-        Number,
-        DateTime,
-        Array,
-        Asset,
-        // References
-        Entry
     }
 }

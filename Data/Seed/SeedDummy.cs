@@ -1,4 +1,5 @@
 ﻿using CMS.Model;
+using Models.Enums;
 
 namespace CMS.Seed
 {
@@ -103,14 +104,14 @@ namespace CMS.Seed
             return new ContentType[] { Trailer, Description, Game, Publisher };
         }
 
-        public static IList<Space> GetSpaces(IList<Guid> ids, Organization org)
+        public static IList<Space> GetSpaces(IList<Guid> ids, IList<Organization> orgs)
         {
             return new List<Space>() {
                 new Space()
                 {
                     Id = ids[0],
                     Name = "Game shop",
-                    OrganizationId = org.Id
+                    OrganizationId = orgs[0].Id
                 }
             };
         }
@@ -134,8 +135,7 @@ namespace CMS.Seed
                 new User()
                 {
                     Id = Guid.NewGuid(),
-                    UserRole = UserRole.Admin,
-                    OrganizationId=  organizations[0].Id
+                    UserRole = UserRole.Admin
                 }
             };
         }

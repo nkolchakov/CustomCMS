@@ -5,8 +5,11 @@ C:\projects\CustomMS\CMS\bin\Debug\net6.0\CMS.deps.json
 C:\projects\CustomMS\CMS\bin\Debug\net6.0\CMS.runtimeconfig.json
 C:\projects\CustomMS\CMS\bin\Debug\net6.0\CMS.dll
 C:\projects\CustomMS\CMS\bin\Debug\net6.0\CMS.pdb
+C:\projects\CustomMS\CMS\bin\Debug\net6.0\AutoMapper.dll
+C:\projects\CustomMS\CMS\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\projects\CustomMS\CMS\bin\Debug\net6.0\Azure.Core.dll
 C:\projects\CustomMS\CMS\bin\Debug\net6.0\Azure.Identity.dll
+C:\projects\CustomMS\CMS\bin\Debug\net6.0\EntityFrameworkCore.RawSQLExtensions.dll
 C:\projects\CustomMS\CMS\bin\Debug\net6.0\GraphQL.dll
 C:\projects\CustomMS\CMS\bin\Debug\net6.0\GraphQLParser.dll
 C:\projects\CustomMS\CMS\bin\Debug\net6.0\GraphQL.MicrosoftDI.dll
@@ -17,6 +20,7 @@ C:\projects\CustomMS\CMS\bin\Debug\net6.0\HotChocolate.Abstractions.dll
 C:\projects\CustomMS\CMS\bin\Debug\net6.0\HotChocolate.AspNetCore.dll
 C:\projects\CustomMS\CMS\bin\Debug\net6.0\HotChocolate.Authorization.dll
 C:\projects\CustomMS\CMS\bin\Debug\net6.0\HotChocolate.Data.dll
+C:\projects\CustomMS\CMS\bin\Debug\net6.0\HotChocolate.Data.EntityFramework.dll
 C:\projects\CustomMS\CMS\bin\Debug\net6.0\HotChocolate.Execution.dll
 C:\projects\CustomMS\CMS\bin\Debug\net6.0\HotChocolate.Execution.Abstractions.dll
 C:\projects\CustomMS\CMS\bin\Debug\net6.0\HotChocolate.Fetching.dll
@@ -90,6 +94,12 @@ C:\projects\CustomMS\CMS\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System
 C:\projects\CustomMS\CMS\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\projects\CustomMS\CMS\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
 C:\projects\CustomMS\CMS\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+C:\projects\CustomMS\CMS\bin\Debug\net6.0\Data.dll
+C:\projects\CustomMS\CMS\bin\Debug\net6.0\DataServices.dll
+C:\projects\CustomMS\CMS\bin\Debug\net6.0\Models.dll
+C:\projects\CustomMS\CMS\bin\Debug\net6.0\DataServices.pdb
+C:\projects\CustomMS\CMS\bin\Debug\net6.0\Data.pdb
+C:\projects\CustomMS\CMS\bin\Debug\net6.0\Models.pdb
 C:\projects\CustomMS\CMS\obj\Debug\net6.0\CMS.csproj.AssemblyReference.cache
 C:\projects\CustomMS\CMS\obj\Debug\net6.0\CMS.GeneratedMSBuildEditorConfig.editorconfig
 C:\projects\CustomMS\CMS\obj\Debug\net6.0\CMS.AssemblyInfoInputs.cache
@@ -106,5 +116,3 @@ C:\projects\CustomMS\CMS\obj\Debug\net6.0\refint\CMS.dll
 C:\projects\CustomMS\CMS\obj\Debug\net6.0\CMS.pdb
 C:\projects\CustomMS\CMS\obj\Debug\net6.0\CMS.genruntimeconfig.cache
 C:\projects\CustomMS\CMS\obj\Debug\net6.0\ref\CMS.dll
-C:\projects\CustomMS\CMS\bin\Debug\net6.0\HotChocolate.Data.EntityFramework.dll
-C:\projects\CustomMS\CMS\bin\Debug\net6.0\EntityFrameworkCore.RawSQLExtensions.dll

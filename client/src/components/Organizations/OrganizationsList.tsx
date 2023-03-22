@@ -1,19 +1,30 @@
 
 import { useQuery } from "@apollo/client";
+import { Box } from "@mui/material";
 import { userId } from "../../constants";
-import { GET_ORGANIZATIONS } from "../../gql/queries.graphql";
-import { Organizations } from "../../gql/__generated__/Organizations";
+import { OrganizationsQuery } from "../../generated/graphql.tsx/graphql";
+import NewOrganization from "./NewOrganization";
+import OrganizationCard from "./OrganizationCard";
+import { QUERY_ORGANIZATIONS } from "./query";
 
 const OrganizationsList = () => {
-    const { loading, error, data } = useQuery<Organizations>(GET_ORGANIZATIONS,
+    const { loading, error, data } = useQuery<OrganizationsQuery>(QUERY_ORGANIZATIONS,
         { variables: { userId } });
-
 
     return (
         !loading && data ? (
-            <div>
-                {data.organizationsByUser.map((d: any) => JSON.stringify(d))}
-            </div>) : <div>loading</div>
+            <Box
+                flexWrap={'wrap'}
+                display={'flex'}
+                flexDirection='row'
+                rowGap={3} columnGap={3}
+                padding={'10px 0 10px 0'}
+                maxWidth={'70wh'}
+            >
+                <NewOrganization />
+                {data.organizationsByUser.map(d => <OrganizationCard organizationData={d} />)}
+            </Box>
+        ) : <div>loading</div>
 
     )
 }

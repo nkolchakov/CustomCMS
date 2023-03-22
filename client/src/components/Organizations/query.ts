@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const GET_ORGANIZATIONS = gql`
+export const QUERY_ORGANIZATIONS = gql`
 query Organizations($userId: UUID!) {
     organizationsByUser(userId: $userId) {
                id,
@@ -8,6 +8,10 @@ query Organizations($userId: UUID!) {
                spaces {
                    id,
                    name
+               },
+               users {
+                id,
+                userRole
                }
            }
 }`

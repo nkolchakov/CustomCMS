@@ -4,6 +4,7 @@ using CMS.Interfaces;
 using CMS.GraphQL.Query;
 using DataServices;
 using CMS.DataServices;
+using CMS.GraphQL.Mutation;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -24,6 +25,9 @@ builder.Services
     .AddQueryType(q => q.Name("Query"))
     .AddType<ContentTypeQuery>()
     .AddType<OrganizationQuery>()
+    .AddMutationType(m => m.Name("Mutation"))
+    .AddType<OrganizationMutation>()
+    .AddMutationConventions(applyToAllMutations: true)
     .AddProjections()
     .AddSorting()
     .AddFiltering();

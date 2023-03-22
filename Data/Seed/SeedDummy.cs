@@ -124,6 +124,16 @@ namespace CMS.Seed
                 {
                     Name = "Org1",
                     Id=Guid.NewGuid()
+                },
+                  new Organization()
+                {
+                    Name = "Organization 2",
+                    Id=Guid.NewGuid()
+                },
+                    new Organization()
+                {
+                    Name = "Third oorg",
+                    Id=Guid.NewGuid()
                 }
             };
         }
@@ -133,6 +143,16 @@ namespace CMS.Seed
             return new List<User>()
             {
                 new User()
+                {
+                    Id = Guid.NewGuid(),
+                    UserRole = UserRole.Admin
+                },
+                  new User()
+                {
+                    Id = Guid.NewGuid(),
+                    UserRole = UserRole.Dev
+                },
+                      new User()
                 {
                     Id = Guid.NewGuid(),
                     UserRole = UserRole.Admin

@@ -14,6 +14,6 @@ namespace CMS.Model
         public string Name { get; set; }
 
         public ICollection<Space> Spaces { get; set; } = new List<Space>();
-        public ICollection<OrganizationUser> OrganizationUser { get; set; }
+        public ICollection<OrganizationUser> OrganizationUser { get; set; } = new List<OrganizationUser>();
     }
 }

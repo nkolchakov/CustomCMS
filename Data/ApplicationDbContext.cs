@@ -35,7 +35,7 @@ namespace CMS.Data
 
             modelBuilder.Entity<Organization>()
                 .HasData(organizationsList);
-            
+
             modelBuilder.Entity<User>().HasData(userslist);
 
             // many to many Organizations to Users
@@ -54,6 +54,10 @@ namespace CMS.Data
                     {
                         OrganizationId = organizationsList[0].Id,
                         UserId = userslist[0].Id
+                    }, new OrganizationUser()
+                    {
+                        OrganizationId = organizationsList[0].Id,
+                        UserId = userslist[1].Id
                     });
 
             modelBuilder.Entity<Space>().HasData(spacesList);
@@ -66,6 +70,7 @@ namespace CMS.Data
         public DbSet<BasicField> Fields { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<OrganizationUser> OrganizationUser { get; set; }
     }
 }
 

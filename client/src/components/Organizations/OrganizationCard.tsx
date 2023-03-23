@@ -1,10 +1,38 @@
+import { useMutation } from "@apollo/client";
 import { Card, CardActionArea, CardMedia, CardContent, Typography, Button, CardActions, Box } from "@mui/material";
-import { OrganizationDto } from "../../generated/graphql.tsx/graphql";
+import { userId } from "../../constants";
+import { DeleteOrganizationInput, DeleteOrganizationPayload, MutationDeleteOrganizationArgs, OrganizationDto } from "../../generated/graphql.tsx/graphql";
+import { DELETE_ORGANIZATION } from "./mutation";
 
 const OrganizationCard = ({ organizationData }: { organizationData: OrganizationDto }) => {
 
-    const handleDelete = () => {
+    const [mutationFunction, { data, loading, error }]
+        = useMutation<DeleteOrganizationPayload, MutationDeleteOrganizationArgs>(DELETE_ORGANIZATION,
+            {
+                errorPolicy: "all",
+                onCompleted: () => {
 
+                },
+                onError: () => {
+
+                }
+            });
+
+    const handleDelete = (orgId: string) => {
+        if (orgId) {
+            const doDelete = window.confirm("Are you sure you want to delete ?");
+            if (!doDelete) {
+                return;
+            }
+            mutationFunction({
+                variables: {
+                    input: {
+                        organizationId: orgId,
+                        userId
+                    }
+                }
+            })
+        }
     };
 
     return (
@@ -28,7 +56,7 @@ const OrganizationCard = ({ organizationData }: { organizationData: Organization
                 </CardActionArea>
                 <CardActions>
                     <Button
-                        onClick={handleDelete}
+                        onClick={() => handleDelete(organizationData.id)}
                         size="medium"
                         style={{ color: 'red', fontWeight: 700 }}>
                         Delete

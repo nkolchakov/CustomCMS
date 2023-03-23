@@ -5,11 +5,6 @@ using CMS.Model;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Models.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static Models.GqlCommon.Inputs.OrganizationInputs;
 
 namespace DataServices
@@ -58,6 +53,29 @@ namespace DataServices
 
             var orgDto = _mapper.Map<OrganizationDto>(newOrganization);
             return orgDto;
+        }
+
+        public async Task DeleteOrganization(DeleteOrganizationInput input)
+        {
+            var organizationForUser = await this._context.OrganizationUser
+                .Include(ou => ou.User)
+                .Include(ou => ou.Organization)
+                .FirstOrDefaultAsync(ou => (ou.OrganizationId == input.organizationId &&
+                                       ou.UserId == input.userId));
+
+            if (organizationForUser == null)
+            {
+                throw new ArgumentException("User is not part of this organization");
+            }
+            else if (organizationForUser.User.UserRole != Models.Enums.UserRole.Admin)
+            {
+                throw new ArgumentException("User is a part of the organization, but not an Admin !");
+            }
+            else
+            {
+                this._context.Organizations.Remove(organizationForUser.Organization);
+                await this._context.SaveChangesAsync();
+            }
         }
 
         public async Task<IEnumerable<OrganizationDto>> GetOrganizationsByUser(Guid userId)

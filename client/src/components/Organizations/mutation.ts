@@ -8,3 +8,11 @@ export const NEW_ORGANIZATION = gql`
             }
     } 
 `
+
+export const DELETE_ORGANIZATION = gql`
+    mutation DeleteOrganization($input: DeleteOrganizationInput!) {
+        deleteOrganization(input: $input) {
+            boolean
+        }
+    }
+`

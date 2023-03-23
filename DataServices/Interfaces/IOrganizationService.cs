@@ -8,6 +8,6 @@ namespace CMS.Interfaces
     {
         Task<IEnumerable<OrganizationDto>> GetOrganizationsByUser(Guid userId);
         Task<OrganizationDto> CreateOrganization(CreateOrganizationInput input);
-
+        Task DeleteOrganization(DeleteOrganizationInput input);
     }
 }

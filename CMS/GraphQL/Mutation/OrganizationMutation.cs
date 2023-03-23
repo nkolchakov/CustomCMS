@@ -21,11 +21,26 @@ namespace CMS.GraphQL.Mutation
                 throw new GraphQLException(ex.Message);
             }
         }
+
+        public async Task<Boolean> DeleteOrganization(DeleteOrganizationInput input,
+            [Service] IOrganizationService organizationService)
+        {
+            try
+            {
+                await organizationService.DeleteOrganization(input);
+                return true;
+                
+            }
+            catch (Exception ex)
+            {
+                throw new GraphQLException(ex.Message);
+            }
+        }
     }
 
     public class CreateOrganizationPayload
     {
-        public String Name { get; set; }
+        public string Name { get; set; }
         public Guid Id { get; set; }
     }
 }

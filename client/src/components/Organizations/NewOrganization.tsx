@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import { FormGroup } from '@mui/material';
 import { useMutation } from "@apollo/client";
 import { NEW_ORGANIZATION } from "./mutation";
-import { CreateOrganizationMutation, CreateOrganizationMutationVariables, MutationCreateOrganizationArgs } from "../../generated/graphql.tsx/graphql";
+import { CreateOrganizationInput, CreateOrganizationPayload, MutationCreateOrganizationArgs } from "../../generated/graphql.tsx/graphql";
 import { userId } from "../../constants";
 
 const NewOrganization = () => {
@@ -33,7 +33,7 @@ const NewOrganization = () => {
     };
 
     const [mutationFunction, { data, loading, error, ...result }]
-        = useMutation<CreateOrganizationMutation, CreateOrganizationMutationVariables>(NEW_ORGANIZATION,
+        = useMutation<CreateOrganizationPayload, MutationCreateOrganizationArgs>(NEW_ORGANIZATION,
             {
                 errorPolicy: "all",
                 onCompleted: () => {

@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
 import ErrorPage from './ErrorPage';
 import OrganizationsList from './components/Organizations/OrganizationsList';
+import OrganizationInfo from './components/Organizations/OrganizationInfo';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
         path: "organizations",
         element: <OrganizationsList />,
         // loader: () => getOrganizationsListForUser(userId)
+      },
+      {
+        path: 'organizations/:organizationId',
+        element: <OrganizationInfo />
       }
     ]
   }

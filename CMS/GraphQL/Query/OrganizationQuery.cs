@@ -22,5 +22,15 @@ namespace CMS.GraphQL.Query
             var result = await orgService.GetOrganizationsByUser(userId);
             return result;
         }
+
+        [UseFiltering]
+        [UseSorting]
+        public async Task<IEnumerable<SpaceDto>> GetSpacesByOrganization(Guid organizationId,
+            [Service] IOrganizationService orgService)
+        {
+
+            var result = await orgService.GetSpacesByOrganization(organizationId);
+            return result;
+        }
     }
 }

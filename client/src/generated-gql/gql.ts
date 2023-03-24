@@ -13,7 +13,10 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n    mutation CreateOrganization($input: CreateOrganizationInput!){\n            createOrganization(input: $input){\n                id,\n                name\n            }\n    } \n": types.CreateOrganizationDocument,
+    "\n    mutation DeleteOrganization($input: DeleteOrganizationInput!) {\n        deleteOrganization(input: $input) {\n            boolean\n        }\n    }\n": types.DeleteOrganizationDocument,
     "\nquery Organizations($userId: UUID!) {\n    organizationsByUser(userId: $userId) {\n               id,\n               name,\n               spaces {\n                   id,\n                   name\n               },\n               users {\n                id,\n                userRole\n               }\n           }\n}": types.OrganizationsDocument,
+    "\nquery Spaces($organizationId: UUID!){\n    spacesByOrganization(organizationId: $organizationId){\n        id,\n        name\n    }\n}\n": types.SpacesDocument,
 };
 
 /**
@@ -33,7 +36,19 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n    mutation CreateOrganization($input: CreateOrganizationInput!){\n            createOrganization(input: $input){\n                id,\n                name\n            }\n    } \n"): (typeof documents)["\n    mutation CreateOrganization($input: CreateOrganizationInput!){\n            createOrganization(input: $input){\n                id,\n                name\n            }\n    } \n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation DeleteOrganization($input: DeleteOrganizationInput!) {\n        deleteOrganization(input: $input) {\n            boolean\n        }\n    }\n"): (typeof documents)["\n    mutation DeleteOrganization($input: DeleteOrganizationInput!) {\n        deleteOrganization(input: $input) {\n            boolean\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\nquery Organizations($userId: UUID!) {\n    organizationsByUser(userId: $userId) {\n               id,\n               name,\n               spaces {\n                   id,\n                   name\n               },\n               users {\n                id,\n                userRole\n               }\n           }\n}"): (typeof documents)["\nquery Organizations($userId: UUID!) {\n    organizationsByUser(userId: $userId) {\n               id,\n               name,\n               spaces {\n                   id,\n                   name\n               },\n               users {\n                id,\n                userRole\n               }\n           }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\nquery Spaces($organizationId: UUID!){\n    spacesByOrganization(organizationId: $organizationId){\n        id,\n        name\n    }\n}\n"): (typeof documents)["\nquery Spaces($organizationId: UUID!){\n    spacesByOrganization(organizationId: $organizationId){\n        id,\n        name\n    }\n}\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

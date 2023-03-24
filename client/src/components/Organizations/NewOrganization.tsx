@@ -6,8 +6,8 @@ import * as yup from 'yup';
 import { FormGroup } from '@mui/material';
 import { useMutation } from "@apollo/client";
 import { NEW_ORGANIZATION } from "./mutation";
-import { CreateOrganizationInput, CreateOrganizationPayload, MutationCreateOrganizationArgs } from "../../generated/graphql.tsx/graphql";
 import { userId } from "../../constants";
+import { CreateOrganizationPayload, MutationCreateOrganizationArgs } from "../../generated-gql/graphql";
 
 const NewOrganization = () => {
     const [open, setOpen] = useState(false);

@@ -91,5 +91,16 @@ namespace DataServices
 
             return _mapper.Map<IEnumerable<Organization>, IEnumerable<OrganizationDto>>(organizationsForUser);
         }
+
+        // TODO: Authorization for eligible Users
+        public async Task<IEnumerable<SpaceDto>> GetSpacesByOrganization(Guid organizationId)
+        {
+            var spaces = await this._context.Spaces
+                .Where(s => s.OrganizationId == organizationId)
+                .ToListAsync();
+
+            var spacesDto = _mapper.Map<IEnumerable<SpaceDto>>(spaces);
+            return spacesDto;
+        }
     }
 }

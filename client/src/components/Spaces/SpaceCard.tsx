@@ -1,36 +1,35 @@
+import { useMutation } from "@apollo/client";
 import { Card, CardActionArea, CardMedia, CardContent, Typography, Button, CardActions, Box } from "@mui/material";
 import { Link } from "react-router-dom";
-import { SpaceDto } from "../../generated-gql/graphql";
+import { DeleteSpacePayload, MutationDeleteSpaceArgs, SpaceDto } from "../../generated-gql/graphql";
+import { DELETE_SPACE } from "./mutation";
 
 const SpaceCard = ({ spaceData }: { spaceData: SpaceDto }) => {
 
-    // const [mutationFunction, { data, loading, error }]
-    //     = useMutation<DeleteOrganizationPayload, MutationDeleteOrganizationArgs>(DELETE_ORGANIZATION,
-    //         {
-    //             errorPolicy: "all",
-    //             onCompleted: () => {
+    const [mutationFunction, { data, loading, error }]
+        = useMutation<DeleteSpacePayload, MutationDeleteSpaceArgs>(DELETE_SPACE,
+            {
+                errorPolicy: "all",
+                onCompleted: () => {
 
-    //             },
-    //             onError: () => {
+                },
+                onError: () => {
 
-    //             }
-    //         });
+                }
+            });
 
     const handleDelete = () => {
-        // if (orgId) {
-        //     const doDelete = window.confirm("Are you sure you want to delete ?");
-        //     if (!doDelete) {
-        //         return;
-        //     }
-        //     mutationFunction({
-        //         variables: {
-        //             input: {
-        //                 organizationId: orgId,
-        //                 userId
-        //             }
-        //         }
-        //     })
-        // }
+        const doDelete = window.confirm("Are you sure you want to delete ?");
+        if (!doDelete) {
+            return;
+        }
+        mutationFunction({
+            variables: {
+                input: {
+                    spaceId: spaceData.id
+                }
+            }
+        })
     };
 
     return (
@@ -61,7 +60,7 @@ const SpaceCard = ({ spaceData }: { spaceData: SpaceDto }) => {
                 </CardActionArea>
                 <CardActions>
                     <Button
-                        onClick={() => handleDelete()}
+                        onClick={handleDelete}
                         size="medium"
                         style={{ color: 'red', fontWeight: 700 }}>
                         Delete

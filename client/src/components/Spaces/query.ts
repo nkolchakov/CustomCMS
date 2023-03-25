@@ -8,3 +8,12 @@ query Spaces($organizationId: UUID!){
     }
 }
 `
+
+export const NEW_SPACE = gql`
+    mutation CreateSpace($input: CreateSpaceInput!){
+        createSpace(input: $input){
+            id,
+            name
+        }
+    }
+`

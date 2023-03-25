@@ -15,6 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n    mutation CreateOrganization($input: CreateOrganizationInput!){\n            createOrganization(input: $input){\n                id,\n                name\n            }\n    } \n": types.CreateOrganizationDocument,
     "\n    mutation DeleteOrganization($input: DeleteOrganizationInput!) {\n        deleteOrganization(input: $input) {\n            boolean\n        }\n    }\n": types.DeleteOrganizationDocument,
+    "\n    mutation CreateSpace($input: CreateSpaceInput!){\n        createSpace(input: $input){\n            id,\n            name\n        }\n    }\n": types.CreateSpaceDocument,
     "\nquery Organizations($userId: UUID!) {\n    organizationsByUser(userId: $userId) {\n               id,\n               name,\n               spaces {\n                   id,\n                   name\n               },\n               users {\n                id,\n                userRole\n               }\n           }\n}": types.OrganizationsDocument,
     "\nquery Spaces($organizationId: UUID!){\n    spacesByOrganization(organizationId: $organizationId){\n        id,\n        name\n    }\n}\n": types.SpacesDocument,
 };
@@ -41,6 +42,10 @@ export function graphql(source: "\n    mutation CreateOrganization($input: Creat
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n    mutation DeleteOrganization($input: DeleteOrganizationInput!) {\n        deleteOrganization(input: $input) {\n            boolean\n        }\n    }\n"): (typeof documents)["\n    mutation DeleteOrganization($input: DeleteOrganizationInput!) {\n        deleteOrganization(input: $input) {\n            boolean\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation CreateSpace($input: CreateSpaceInput!){\n        createSpace(input: $input){\n            id,\n            name\n        }\n    }\n"): (typeof documents)["\n    mutation CreateSpace($input: CreateSpaceInput!){\n        createSpace(input: $input){\n            id,\n            name\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -50,6 +50,21 @@ namespace CMS.GraphQL.Mutation
                 throw new GraphQLException(ex.Message);
             }
         }
+
+        public async Task<bool> DeleteSpace(Guid spaceId, 
+            [Service] IOrganizationService organizationService)
+        {
+            try
+            {
+                await organizationService.DeleteSpace(spaceId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+                throw new GraphQLException(ex.Message);
+            }
+        }
     }
 
     public class CreateOrganizationPayload

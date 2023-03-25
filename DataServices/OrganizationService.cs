@@ -129,5 +129,13 @@ namespace DataServices
 
             return _mapper.Map<SpaceDto>(newSpace);
         }
+
+        public async Task DeleteSpace(Guid spaceId)
+        {
+            var spaceStub = new Space() { Id = spaceId};
+            this._context.Entry(spaceStub).State = EntityState.Deleted;
+            this._context.Spaces.Remove(spaceStub);
+            await this._context.SaveChangesAsync();
+        }
     }
 }

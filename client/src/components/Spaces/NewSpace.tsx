@@ -4,9 +4,9 @@ import { useState } from "react";
 import { createElModalStyle } from "../../common/styles";
 import * as yup from 'yup';
 import { CreateSpacePayload, MutationCreateSpaceArgs } from "../../generated-gql/graphql";
-import { NEW_SPACE } from "../Organizations/mutation";
 import { useMutation } from "@apollo/client";
 import { useFormik } from "formik";
+import { NEW_SPACE } from "./query";
 
 const NewSpace = ({ currentOrganization }: { currentOrganization: string }) => {
     const [open, setOpen] = useState(false);

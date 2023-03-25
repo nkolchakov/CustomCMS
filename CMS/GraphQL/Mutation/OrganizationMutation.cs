@@ -29,7 +29,21 @@ namespace CMS.GraphQL.Mutation
             {
                 await organizationService.DeleteOrganization(input);
                 return true;
-                
+
+            }
+            catch (Exception ex)
+            {
+                throw new GraphQLException(ex.Message);
+            }
+        }
+
+        public async Task<CreateSpacePayload> CreateSpace(CreateSpaceInput input,
+            [Service] IOrganizationService organizationService)
+        {
+            try
+            {
+                var space = await organizationService.CreateSpace(input);
+                return new CreateSpacePayload() { Id = space.Id, Name = space.Name };
             }
             catch (Exception ex)
             {
@@ -42,5 +56,11 @@ namespace CMS.GraphQL.Mutation
     {
         public string Name { get; set; }
         public Guid Id { get; set; }
+    }
+
+    public class CreateSpacePayload
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
     }
 }

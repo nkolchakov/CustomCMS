@@ -1,16 +1,14 @@
-import { Box, Button, Card, CardActionArea, CardContent, IconButton, Modal, TextField, Typography } from "@mui/material";
+import { Card, CardActionArea, CardContent, Box, Typography, Modal, TextField, Button } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useState } from "react";
-import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
-import * as yup from 'yup';
-import { FormGroup } from '@mui/material';
-import { useMutation } from "@apollo/client";
-import { NEW_ORGANIZATION } from "./mutation";
-import { userId } from "../../constants";
-import { CreateOrganizationPayload, MutationCreateOrganizationArgs } from "../../generated-gql/graphql";
 import { createElModalStyle } from "../../common/styles";
+import * as yup from 'yup';
+import { CreateSpacePayload, MutationCreateSpaceArgs } from "../../generated-gql/graphql";
+import { NEW_SPACE } from "../Organizations/mutation";
+import { useMutation } from "@apollo/client";
+import { useFormik } from "formik";
 
-const NewOrganization = () => {
+const NewSpace = ({ currentOrganization }: { currentOrganization: string }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
         setOpen(true);
@@ -20,7 +18,7 @@ const NewOrganization = () => {
     };
 
     const [mutationFunction, { data, loading, error, ...result }]
-        = useMutation<CreateOrganizationPayload, MutationCreateOrganizationArgs>(NEW_ORGANIZATION,
+        = useMutation<CreateSpacePayload, MutationCreateSpaceArgs>(NEW_SPACE,
             {
                 errorPolicy: "all",
                 onCompleted: () => {
@@ -35,15 +33,26 @@ const NewOrganization = () => {
             });
 
 
+    const handleCreate = (values: any) => {
+        mutationFunction({
+            variables: {
+                input: {
+                    name: values.name,
+                    organizationId: currentOrganization
+                }
+            }
+        });
+    }
+
     const validationSchema = yup.object({
         name: yup.string()
-            .required("Organizations name is required !")
+            .required("Space name is required !")
     });
 
 
     const formik = useFormik({
         initialValues: {
-            name: ''
+            name: ""
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -51,16 +60,6 @@ const NewOrganization = () => {
         },
     });
 
-    const handleCreate = (values: any) => {
-        mutationFunction({
-            variables: {
-                input: {
-                    organizationName: values.name,
-                    userId: userId
-                }
-            }
-        });
-    }
     return (
         <div style={{ alignSelf: 'center' }}>
             <Card sx={{ width: 345 }}>
@@ -68,7 +67,7 @@ const NewOrganization = () => {
                     <CardContent>
                         <Box flexDirection={'column'} textAlign='center'>
                             <Typography gutterBottom variant="h5" component="div">
-                                New Organization
+                                New Space
                             </Typography>
                             <AddCircleIcon color='primary' />
                         </Box>
@@ -78,18 +77,18 @@ const NewOrganization = () => {
             <Modal
                 open={open}
                 onClose={handleClose}
-                aria-labelledby="create a new organization"
-                aria-describedby="create a new organization"
+                aria-labelledby="create a new Space"
+                aria-describedby="create a new Space"
             >
                 <Box sx={{ ...createElModalStyle, width: 400 }} rowGap={3} columnGap={3}>
-                    <h2 id="parent-modal-title">Create Organization</h2>
+                    <h2 id="parent-modal-title">Create Space</h2>
                     {loading ? '...' :
                         <form onSubmit={formik.handleSubmit}>
                             <TextField
                                 id="name"
                                 type="name"
                                 name="name"
-                                label="Organization name"
+                                label="Space name"
                                 variant={'standard'}
                                 value={formik.values.name}
                                 onChange={formik.handleChange}
@@ -101,7 +100,7 @@ const NewOrganization = () => {
                                 style={{ marginTop: 20 }}
                                 type='submit'
                                 variant="contained">
-                                Submit
+                                Create
                             </Button>
                         </form>
                     }
@@ -111,4 +110,4 @@ const NewOrganization = () => {
     )
 }
 
-export default NewOrganization;
+export default NewSpace;

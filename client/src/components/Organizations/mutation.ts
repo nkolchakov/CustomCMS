@@ -16,3 +16,12 @@ export const DELETE_ORGANIZATION = gql`
         }
     }
 `
+
+export const NEW_SPACE = gql`
+    mutation CreateSpace($input: CreateSpaceInput!){
+        createSpace(input: $input){
+            id,
+            name
+        }
+    }
+`

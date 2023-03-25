@@ -55,6 +55,7 @@ namespace DataServices
             return orgDto;
         }
 
+
         public async Task DeleteOrganization(DeleteOrganizationInput input)
         {
             var organizationForUser = await this._context.OrganizationUser
@@ -101,6 +102,32 @@ namespace DataServices
 
             var spacesDto = _mapper.Map<IEnumerable<SpaceDto>>(spaces);
             return spacesDto;
+        }
+
+        public async Task<SpaceDto> CreateSpace(CreateSpaceInput input)
+        {
+            var trimmedName = input.name;
+            if (String.IsNullOrEmpty(trimmedName))
+            {
+                throw new ArgumentNullException(nameof(input.name));
+            }
+
+            if (input.organizationId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(input.organizationId));
+            }
+
+            var newSpace = new Space()
+            {
+                Id = Guid.NewGuid(),
+                Name = input.name,
+                OrganizationId = input.organizationId
+            };
+
+            this._context.Spaces.Add(newSpace);
+            await this._context.SaveChangesAsync();
+
+            return _mapper.Map<SpaceDto>(newSpace);
         }
     }
 }

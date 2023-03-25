@@ -158,6 +158,16 @@ export type CreateOrganizationPayload = {
   name: Scalars['String'];
 };
 
+export type CreateSpaceInput = {
+  name: Scalars['String'];
+  organizationId: Scalars['UUID'];
+};
+
+export type CreateSpacePayload = {
+  __typename?: 'CreateSpacePayload';
+  spaceDto?: Maybe<SpaceDto>;
+};
+
 export type DateTimeOperationFilterInput = {
   eq?: InputMaybe<Scalars['DateTime']>;
   gt?: InputMaybe<Scalars['DateTime']>;
@@ -221,12 +231,18 @@ export type ListFilterInputTypeOfUserDtoFilterInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createOrganization: CreateOrganizationPayload;
+  createSpace: CreateSpacePayload;
   deleteOrganization: DeleteOrganizationPayload;
 };
 
 
 export type MutationCreateOrganizationArgs = {
   input: CreateOrganizationInput;
+};
+
+
+export type MutationCreateSpaceArgs = {
+  input: CreateSpaceInput;
 };
 
 

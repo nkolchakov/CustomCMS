@@ -13,6 +13,6 @@ namespace CMS.Interfaces
 
         // Spaces
         Task<IEnumerable<SpaceDto>> GetSpacesByOrganization(Guid organizationId);
-
+        Task<SpaceDto> CreateSpace(CreateSpaceInput input);
     }
 }

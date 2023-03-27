@@ -6,6 +6,7 @@ import App from './App';
 import ErrorPage from './ErrorPage';
 import OrganizationsList from './components/Organizations/OrganizationsList';
 import OrganizationInfo from './components/Organizations/OrganizationInfo';
+import SpaceInfo from './components/Spaces/SpaceInfo';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: 'organizations/:organizationId',
         element: <OrganizationInfo />
+      },
+      {
+        path: 'space/:spaceId',
+        element: <SpaceInfo />
       }
     ]
   }

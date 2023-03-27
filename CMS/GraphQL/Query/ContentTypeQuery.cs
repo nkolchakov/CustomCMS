@@ -18,7 +18,7 @@ namespace CMS.GraphQL.Query
 
         [UseFiltering]
         [UseSorting]
-        public async Task<IEnumerable<ContentTypeDto>> GetEntityById(Guid id, [Service] IContentTypeService contentService)
+        public async Task<IEnumerable<ContentTypeDto>> GetEntityById(Guid id, [Service] IContentService contentService)
         {
             if (contentService == null)
             {

@@ -2,7 +2,7 @@
 
 namespace CMS.Interfaces
 {
-    public interface IContentTypeService
+    public interface IContentService
     {
         Task<IEnumerable<ContentTypeDto>> GetEntityById(Guid id);
     }

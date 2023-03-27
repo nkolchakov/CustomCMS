@@ -33,7 +33,7 @@ builder.Services
     .AddFiltering();
 
 
-builder.Services.AddScoped<IContentTypeService, ContentTypeService>();
+builder.Services.AddScoped<IContentService, ContentService>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 
 var app = builder.Build();

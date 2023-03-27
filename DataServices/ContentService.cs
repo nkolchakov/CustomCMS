@@ -8,9 +8,9 @@ using Models.DTO;
 
 namespace CMS.DataServices
 {
-    public class ContentTypeService : DbFactoryFetcher, IContentTypeService
+    public class ContentService : DbFactoryFetcher, IContentService
     {
-        public ContentTypeService(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMapper mapper)
+        public ContentService(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMapper mapper)
             : base(dbContextFactory, mapper)
         {
         }

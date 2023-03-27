@@ -67,7 +67,31 @@ namespace CMS.Seed
                         Value = "USA",
                         Type=CMS_TYPE.Text,
                         ContentTypeId = contentTypes[3].Id
-                    }
+                    },
+                     new BasicField()
+                     {
+                        Id= Guid.NewGuid(),
+                        Name = "indField1",
+                        Value = "value-1",
+                        Type=CMS_TYPE.Text,
+                        ContentTypeId = contentTypes[4].Id
+                     },
+                       new BasicField()
+                     {
+                        Id= Guid.NewGuid(),
+                        Name = "indField2",
+                        Value = "4",
+                        Type=CMS_TYPE.Number,
+                        ContentTypeId = contentTypes[4].Id
+                     },
+                          new BasicField()
+                     {
+                        Id= Guid.NewGuid(),
+                        Name = "ind2Field",
+                        Value = "valueee1",
+                        Type=CMS_TYPE.Text,
+                        ContentTypeId = contentTypes[5].Id
+                     },
                 };
 
         }
@@ -91,17 +115,35 @@ namespace CMS.Seed
             {
                 Id = Guid.NewGuid(),
                 Name = "Publisher",
-                SpaceId = spaceId
+                SpaceId = spaceId,
+                Description = "Best publisher game award for the previous year"
             };
 
             var Game = new ContentType()
             {
                 Id = Guid.NewGuid(),
                 Name = "Game",
-                SpaceId = spaceId
+                SpaceId = spaceId,
+                Description = "The game is ..."
             };
 
-            return new ContentType[] { Trailer, Description, Game, Publisher };
+            var Independent2 = new ContentType()
+            {
+                Id = Guid.NewGuid(),
+                Name = "independen 2",
+                SpaceId = spaceId,
+                Description = "Description for the independent type"
+            };
+
+            var Independent3 = new ContentType()
+            {
+                Id = Guid.NewGuid(),
+                Name = "independent 3",
+                SpaceId = spaceId,
+                Description = "Some other description"
+            };
+
+            return new ContentType[] { Trailer, Description, Game, Publisher, Independent2, Independent3 };
         }
 
         public static IList<Space> GetSpaces(IList<Guid> ids, IList<Organization> orgs)

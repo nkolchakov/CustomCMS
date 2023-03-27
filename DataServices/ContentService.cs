@@ -15,6 +15,16 @@ namespace CMS.DataServices
         {
         }
 
+        public async Task<IEnumerable<ContentTypeDto>> GetEntitesForSpace(Guid spaceId)
+        {
+            var entities = await _context.ContentTypes
+                .Where(c => c.SpaceId == spaceId)
+                .ToListAsync();
+
+            var entitesDto = _mapper.Map<IEnumerable<ContentTypeDto>>(entities);
+            return entitesDto;
+        }
+
         public async Task<IEnumerable<ContentTypeDto>> GetEntityById(Guid id)
         {
             FormattableString sql = $@"WITH CHAIN
@@ -52,5 +62,8 @@ namespace CMS.DataServices
                 throw ex;
             }
         }
+
+
+
     }
 }

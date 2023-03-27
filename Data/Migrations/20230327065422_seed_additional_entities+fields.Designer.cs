@@ -4,6 +4,7 @@ using CMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230327065422_seed_additional_entities+fields")]
+    partial class seed_additional_entitiesfields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,80 +57,80 @@ namespace CMS.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ef935913-3d49-454a-895f-ba13b7f7595c"),
-                            ContentTypeId = new Guid("fe6839fd-e72b-4114-a18e-3d4eadf399a9"),
+                            Id = new Guid("4dc7f691-f30a-4b39-97d9-eea4319785df"),
+                            ContentTypeId = new Guid("ab0b3f5a-63b1-40fc-ae2c-0ee9bb619f06"),
                             Name = "Creator",
                             Type = 0,
                             Value = "Regixx"
                         },
                         new
                         {
-                            Id = new Guid("254a16bb-4299-4602-8ab1-12d19f50a522"),
-                            ContentTypeId = new Guid("fe6839fd-e72b-4114-a18e-3d4eadf399a9"),
+                            Id = new Guid("54e15a5f-4ad6-4d3d-a2bd-b64c76bc53c5"),
+                            ContentTypeId = new Guid("ab0b3f5a-63b1-40fc-ae2c-0ee9bb619f06"),
                             Name = "TrailerVideo",
                             Type = 4,
                             Value = "http://"
                         },
                         new
                         {
-                            Id = new Guid("0a6c795c-e6b6-4248-a2ef-e61a01e37a52"),
-                            ContentTypeId = new Guid("ab098d4d-7f46-4b29-9cd3-94fa57e0688a"),
+                            Id = new Guid("779b36db-d0bf-448d-86d9-fcd5e8e4bf5b"),
+                            ContentTypeId = new Guid("cec02055-52a5-4850-93ba-021f270e202c"),
                             Name = "DescriptionText",
                             Type = 0,
                             Value = "Best game ever"
                         },
                         new
                         {
-                            Id = new Guid("37ede976-7f54-4757-bb87-78d717fc028c"),
-                            ContentTypeId = new Guid("0bdea8ca-293e-4445-b3af-cacf951d1114"),
+                            Id = new Guid("f92cb2c2-ad9e-4569-808d-12e003bf856d"),
+                            ContentTypeId = new Guid("7042031c-f943-4bf1-8673-686bedb92229"),
                             Name = "Name",
                             Type = 0,
                             Value = "Star Wars"
                         },
                         new
                         {
-                            Id = new Guid("67f01731-ab80-4095-b32e-a6e1f9760f01"),
-                            ContentTypeId = new Guid("0bdea8ca-293e-4445-b3af-cacf951d1114"),
+                            Id = new Guid("deb9def5-a633-469a-b54e-0c6b3646cd8d"),
+                            ContentTypeId = new Guid("7042031c-f943-4bf1-8673-686bedb92229"),
                             Name = "Year",
                             Type = 1,
                             Value = "2007"
                         },
                         new
                         {
-                            Id = new Guid("66fcdf6d-f417-4099-a29c-2825aaf7518a"),
-                            ContentTypeId = new Guid("932d939d-2d2a-435c-b8b0-0c56f00c333b"),
+                            Id = new Guid("fd8e5afe-a3ec-4b2c-8842-dc7c5b44de0b"),
+                            ContentTypeId = new Guid("dc876db0-fe50-4f46-995e-402534bf3429"),
                             Name = "Name",
                             Type = 0,
                             Value = "Santa Monica"
                         },
                         new
                         {
-                            Id = new Guid("615066af-038e-4553-a578-b618a78ed7f5"),
-                            ContentTypeId = new Guid("932d939d-2d2a-435c-b8b0-0c56f00c333b"),
+                            Id = new Guid("a72fe275-28eb-435a-88f0-da578bcb2640"),
+                            ContentTypeId = new Guid("dc876db0-fe50-4f46-995e-402534bf3429"),
                             Name = "Location",
                             Type = 0,
                             Value = "USA"
                         },
                         new
                         {
-                            Id = new Guid("e738ce61-a220-4f71-ade8-bacaa9909960"),
-                            ContentTypeId = new Guid("8be3a1e5-30b9-4e1d-9937-5d8b0752ad29"),
+                            Id = new Guid("1dc06fdf-6cb3-404c-a496-90b3c174026d"),
+                            ContentTypeId = new Guid("a0c540ec-790a-4e3d-9ec9-4adce47abdfe"),
                             Name = "indField1",
                             Type = 0,
                             Value = "value-1"
                         },
                         new
                         {
-                            Id = new Guid("ee5f3ec1-0e40-4f2e-8d71-e6a95995ab89"),
-                            ContentTypeId = new Guid("8be3a1e5-30b9-4e1d-9937-5d8b0752ad29"),
+                            Id = new Guid("bb810b03-c3ab-4c78-97d2-46334c2266a4"),
+                            ContentTypeId = new Guid("a0c540ec-790a-4e3d-9ec9-4adce47abdfe"),
                             Name = "indField2",
                             Type = 1,
                             Value = "4"
                         },
                         new
                         {
-                            Id = new Guid("924db144-6737-4b6b-a520-4590aaf1527c"),
-                            ContentTypeId = new Guid("eafed2b0-f4ed-4330-b1f2-9e63e7f91a98"),
+                            Id = new Guid("5666d2d2-9629-4d33-838c-308a77ffc85d"),
+                            ContentTypeId = new Guid("1ded9adf-ed3e-402d-85fd-21de7eb8d90f"),
                             Name = "ind2Field",
                             Type = 0,
                             Value = "valueee1"
@@ -139,10 +142,6 @@ namespace CMS.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -164,43 +163,39 @@ namespace CMS.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("fe6839fd-e72b-4114-a18e-3d4eadf399a9"),
+                            Id = new Guid("ab0b3f5a-63b1-40fc-ae2c-0ee9bb619f06"),
                             Name = "Trailer",
-                            SpaceId = new Guid("bba73054-8ed1-4e89-b0a1-df79de052184")
+                            SpaceId = new Guid("81ceb55b-dd52-4a61-9251-f34d6803a8bd")
                         },
                         new
                         {
-                            Id = new Guid("ab098d4d-7f46-4b29-9cd3-94fa57e0688a"),
+                            Id = new Guid("cec02055-52a5-4850-93ba-021f270e202c"),
                             Name = "Description",
-                            SpaceId = new Guid("bba73054-8ed1-4e89-b0a1-df79de052184")
+                            SpaceId = new Guid("81ceb55b-dd52-4a61-9251-f34d6803a8bd")
                         },
                         new
                         {
-                            Id = new Guid("0bdea8ca-293e-4445-b3af-cacf951d1114"),
-                            Description = "The game is ...",
+                            Id = new Guid("7042031c-f943-4bf1-8673-686bedb92229"),
                             Name = "Game",
-                            SpaceId = new Guid("bba73054-8ed1-4e89-b0a1-df79de052184")
+                            SpaceId = new Guid("81ceb55b-dd52-4a61-9251-f34d6803a8bd")
                         },
                         new
                         {
-                            Id = new Guid("932d939d-2d2a-435c-b8b0-0c56f00c333b"),
-                            Description = "Best publisher game award for the previous year",
+                            Id = new Guid("dc876db0-fe50-4f46-995e-402534bf3429"),
                             Name = "Publisher",
-                            SpaceId = new Guid("bba73054-8ed1-4e89-b0a1-df79de052184")
+                            SpaceId = new Guid("81ceb55b-dd52-4a61-9251-f34d6803a8bd")
                         },
                         new
                         {
-                            Id = new Guid("8be3a1e5-30b9-4e1d-9937-5d8b0752ad29"),
-                            Description = "Description for the independent type",
+                            Id = new Guid("a0c540ec-790a-4e3d-9ec9-4adce47abdfe"),
                             Name = "independen 2",
-                            SpaceId = new Guid("bba73054-8ed1-4e89-b0a1-df79de052184")
+                            SpaceId = new Guid("81ceb55b-dd52-4a61-9251-f34d6803a8bd")
                         },
                         new
                         {
-                            Id = new Guid("eafed2b0-f4ed-4330-b1f2-9e63e7f91a98"),
-                            Description = "Some other description",
+                            Id = new Guid("1ded9adf-ed3e-402d-85fd-21de7eb8d90f"),
                             Name = "independent 3",
-                            SpaceId = new Guid("bba73054-8ed1-4e89-b0a1-df79de052184")
+                            SpaceId = new Guid("81ceb55b-dd52-4a61-9251-f34d6803a8bd")
                         });
                 });
 
@@ -221,18 +216,18 @@ namespace CMS.Migrations
                     b.HasData(
                         new
                         {
-                            ParentId = new Guid("ab098d4d-7f46-4b29-9cd3-94fa57e0688a"),
-                            ChildId = new Guid("fe6839fd-e72b-4114-a18e-3d4eadf399a9")
+                            ParentId = new Guid("cec02055-52a5-4850-93ba-021f270e202c"),
+                            ChildId = new Guid("ab0b3f5a-63b1-40fc-ae2c-0ee9bb619f06")
                         },
                         new
                         {
-                            ParentId = new Guid("0bdea8ca-293e-4445-b3af-cacf951d1114"),
-                            ChildId = new Guid("ab098d4d-7f46-4b29-9cd3-94fa57e0688a")
+                            ParentId = new Guid("7042031c-f943-4bf1-8673-686bedb92229"),
+                            ChildId = new Guid("cec02055-52a5-4850-93ba-021f270e202c")
                         },
                         new
                         {
-                            ParentId = new Guid("0bdea8ca-293e-4445-b3af-cacf951d1114"),
-                            ChildId = new Guid("932d939d-2d2a-435c-b8b0-0c56f00c333b")
+                            ParentId = new Guid("7042031c-f943-4bf1-8673-686bedb92229"),
+                            ChildId = new Guid("dc876db0-fe50-4f46-995e-402534bf3429")
                         });
                 });
 
@@ -254,17 +249,17 @@ namespace CMS.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ea478b4f-6786-4378-b05f-01a0beaa7e0f"),
+                            Id = new Guid("b7f080b7-9749-4aaa-8d18-0ed036c89edd"),
                             Name = "Org1"
                         },
                         new
                         {
-                            Id = new Guid("8849baac-20eb-4e24-a9ea-b92b204f8795"),
+                            Id = new Guid("b706b43f-92b7-422d-8e28-35bd6bc01630"),
                             Name = "Organization 2"
                         },
                         new
                         {
-                            Id = new Guid("f79e5473-fe94-4de0-891e-1a23af37dcf0"),
+                            Id = new Guid("90428e5a-3a8e-463b-bf27-71fdbedec17e"),
                             Name = "Third oorg"
                         });
                 });
@@ -291,9 +286,9 @@ namespace CMS.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("bba73054-8ed1-4e89-b0a1-df79de052184"),
+                            Id = new Guid("81ceb55b-dd52-4a61-9251-f34d6803a8bd"),
                             Name = "Game shop",
-                            OrganizationId = new Guid("ea478b4f-6786-4378-b05f-01a0beaa7e0f")
+                            OrganizationId = new Guid("b7f080b7-9749-4aaa-8d18-0ed036c89edd")
                         });
                 });
 
@@ -338,17 +333,17 @@ namespace CMS.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("dbff476f-295c-4b69-b3e5-b89461245a86"),
+                            Id = new Guid("3b9648c6-cbb1-4a06-86ad-e8c69a8fff51"),
                             UserRole = 0
                         },
                         new
                         {
-                            Id = new Guid("b8a8d8a2-2e03-4bb0-84e5-72133610c860"),
+                            Id = new Guid("42502914-030d-49eb-bea6-26bdedc64aeb"),
                             UserRole = 1
                         },
                         new
                         {
-                            Id = new Guid("b82c1a52-0220-455a-84b2-92f266a36cf3"),
+                            Id = new Guid("f090c653-cb8b-402e-aa64-41e48aed5316"),
                             UserRole = 0
                         });
                 });
@@ -370,13 +365,13 @@ namespace CMS.Migrations
                     b.HasData(
                         new
                         {
-                            OrganizationId = new Guid("ea478b4f-6786-4378-b05f-01a0beaa7e0f"),
-                            UserId = new Guid("dbff476f-295c-4b69-b3e5-b89461245a86")
+                            OrganizationId = new Guid("b7f080b7-9749-4aaa-8d18-0ed036c89edd"),
+                            UserId = new Guid("3b9648c6-cbb1-4a06-86ad-e8c69a8fff51")
                         },
                         new
                         {
-                            OrganizationId = new Guid("ea478b4f-6786-4378-b05f-01a0beaa7e0f"),
-                            UserId = new Guid("b8a8d8a2-2e03-4bb0-84e5-72133610c860")
+                            OrganizationId = new Guid("b7f080b7-9749-4aaa-8d18-0ed036c89edd"),
+                            UserId = new Guid("42502914-030d-49eb-bea6-26bdedc64aeb")
                         });
                 });
 

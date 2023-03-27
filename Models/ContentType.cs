@@ -11,11 +11,13 @@ namespace CMS.Model
 
         [Required]
         [MaxLength(255)]
-        // needs to be unique per Space
+        // TODO: needs to be unique per Space
         public string Name { get; set; }
 
         [ForeignKey("SpaceId")]
         public Guid SpaceId { get; set; }
+        [MaxLength(300)]
+        public string? Description { get; set; }
         public Sys? Sys { get; set; }
         public ICollection<BasicField> BasicFields { get; set; } = new List<BasicField>();
         public virtual ICollection<ContentTypeReferences> Parents { get; set; } = new List<ContentTypeReferences>();

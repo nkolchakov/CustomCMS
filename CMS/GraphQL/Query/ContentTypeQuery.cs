@@ -16,17 +16,32 @@ namespace CMS.GraphQL.Query
             return context.ContentTypes;
         }
 
+        //[UseFiltering]
+        //[UseSorting]
+        //public async Task<IEnumerable<ContentTypeDto>> GetEntityById(Guid id, [Service] IContentService contentService)
+        //{
+        //    if (contentService == null)
+        //    {
+        //        throw new ArgumentNullException(nameof(contentService));
+        //    }
+
+        //    var result = await contentService.GetEntityById(id);
+        //    return result;
+        //}
+
         [UseFiltering]
         [UseSorting]
-        public async Task<IEnumerable<ContentTypeDto>> GetEntityById(Guid id, [Service] IContentService contentService)
+        public async Task<IEnumerable<ContentTypeDto>> GetEntitiesBySpace(Guid spaceId, 
+            [Service] IContentService contentService)
         {
             if (contentService == null)
             {
                 throw new ArgumentNullException(nameof(contentService));
             }
 
-            var result = await contentService.GetEntityById(id);
+            var result = await contentService.GetEntitesForSpace(spaceId);
             return result;
         }
+
     }
 }

@@ -1,13 +1,20 @@
-import { useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import SpacesList from "../Spaces/SpacesList";
 
 export const OrganizationInfo = () => {
-    const { organizationId } = useParams();
+    const { organizationId, spaceId } = useParams();
 
     return (
         <div>
-            Organization info {organizationId}
-            <SpacesList />
+            {!spaceId &&
+                (
+                    <div>
+                        Organization info {organizationId}
+                        <SpacesList />
+                    </div>
+                )
+            }
+            <Outlet />
         </div>
     )
 }

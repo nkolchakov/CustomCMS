@@ -43,7 +43,7 @@ const OrganizationCard = ({ organizationData }: { organizationData: Organization
                 <CardActionArea>
                     <Link
                         style={{ textDecoration: 'none' }}
-                        to={`/organizations/${organizationData.id}`}
+                        to={`/organization/${organizationData.id}`}
                     >
                         <CardMedia
                             component="img"

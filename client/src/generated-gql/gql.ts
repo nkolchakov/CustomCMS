@@ -13,11 +13,13 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\nquery EntitiesBySpace($spaceId: UUID!){\n    entitiesBySpace(spaceId: $spaceId){\n        id,\n        name,\n        description\n    }\n}\n": types.EntitiesBySpaceDocument,
     "\n    mutation CreateOrganization($input: CreateOrganizationInput!){\n            createOrganization(input: $input){\n                id,\n                name\n            }\n    } \n": types.CreateOrganizationDocument,
     "\n    mutation DeleteOrganization($input: DeleteOrganizationInput!) {\n        deleteOrganization(input: $input) {\n            boolean\n        }\n    }\n": types.DeleteOrganizationDocument,
-    "\n    mutation CreateSpace($input: CreateSpaceInput!){\n        createSpace(input: $input){\n            id,\n            name\n        }\n    }\n": types.CreateSpaceDocument,
     "\nquery Organizations($userId: UUID!) {\n    organizationsByUser(userId: $userId) {\n               id,\n               name,\n               spaces {\n                   id,\n                   name\n               },\n               users {\n                id,\n                userRole\n               }\n           }\n}": types.OrganizationsDocument,
+    "\n    mutation DeleteSpace($input: DeleteSpaceInput!) {\n        deleteSpace(input: $input) {\n            boolean\n        }\n    }\n": types.DeleteSpaceDocument,
     "\nquery Spaces($organizationId: UUID!){\n    spacesByOrganization(organizationId: $organizationId){\n        id,\n        name\n    }\n}\n": types.SpacesDocument,
+    "\n    mutation CreateSpace($input: CreateSpaceInput!){\n        createSpace(input: $input){\n            id,\n            name\n        }\n    }\n": types.CreateSpaceDocument,
 };
 
 /**
@@ -37,6 +39,10 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\nquery EntitiesBySpace($spaceId: UUID!){\n    entitiesBySpace(spaceId: $spaceId){\n        id,\n        name,\n        description\n    }\n}\n"): (typeof documents)["\nquery EntitiesBySpace($spaceId: UUID!){\n    entitiesBySpace(spaceId: $spaceId){\n        id,\n        name,\n        description\n    }\n}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n    mutation CreateOrganization($input: CreateOrganizationInput!){\n            createOrganization(input: $input){\n                id,\n                name\n            }\n    } \n"): (typeof documents)["\n    mutation CreateOrganization($input: CreateOrganizationInput!){\n            createOrganization(input: $input){\n                id,\n                name\n            }\n    } \n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -45,15 +51,19 @@ export function graphql(source: "\n    mutation DeleteOrganization($input: Delet
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    mutation CreateSpace($input: CreateSpaceInput!){\n        createSpace(input: $input){\n            id,\n            name\n        }\n    }\n"): (typeof documents)["\n    mutation CreateSpace($input: CreateSpaceInput!){\n        createSpace(input: $input){\n            id,\n            name\n        }\n    }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function graphql(source: "\nquery Organizations($userId: UUID!) {\n    organizationsByUser(userId: $userId) {\n               id,\n               name,\n               spaces {\n                   id,\n                   name\n               },\n               users {\n                id,\n                userRole\n               }\n           }\n}"): (typeof documents)["\nquery Organizations($userId: UUID!) {\n    organizationsByUser(userId: $userId) {\n               id,\n               name,\n               spaces {\n                   id,\n                   name\n               },\n               users {\n                id,\n                userRole\n               }\n           }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n    mutation DeleteSpace($input: DeleteSpaceInput!) {\n        deleteSpace(input: $input) {\n            boolean\n        }\n    }\n"): (typeof documents)["\n    mutation DeleteSpace($input: DeleteSpaceInput!) {\n        deleteSpace(input: $input) {\n            boolean\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\nquery Spaces($organizationId: UUID!){\n    spacesByOrganization(organizationId: $organizationId){\n        id,\n        name\n    }\n}\n"): (typeof documents)["\nquery Spaces($organizationId: UUID!){\n    spacesByOrganization(organizationId: $organizationId){\n        id,\n        name\n    }\n}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation CreateSpace($input: CreateSpaceInput!){\n        createSpace(input: $input){\n            id,\n            name\n        }\n    }\n"): (typeof documents)["\n    mutation CreateSpace($input: CreateSpaceInput!){\n        createSpace(input: $input){\n            id,\n            name\n        }\n    }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

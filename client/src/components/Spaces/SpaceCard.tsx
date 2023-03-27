@@ -39,7 +39,7 @@ const SpaceCard = ({ spaceData }: { spaceData: SpaceDto }) => {
                 <CardActionArea>
                     <Link
                         style={{ textDecoration: 'none' }}
-                        to={`/space/${spaceData.id}`}
+                        to={`space/${spaceData.id}`}
                     >
                         <CardMedia
                             component="img"

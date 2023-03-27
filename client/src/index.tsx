@@ -7,6 +7,7 @@ import ErrorPage from './ErrorPage';
 import OrganizationsList from './components/Organizations/OrganizationsList';
 import OrganizationInfo from './components/Organizations/OrganizationInfo';
 import SpaceInfo from './components/Spaces/SpaceInfo';
+import EntityInfo from './components/Content/EntityInfo';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -31,13 +32,21 @@ const router = createBrowserRouter([
         // loader: () => getOrganizationsListForUser(userId)
       },
       {
-        path: 'organizations/:organizationId',
-        element: <OrganizationInfo />
+        path: 'organization/:organizationId',
+        element: <OrganizationInfo />,
+        children: [
+          {
+            path: 'space/:spaceId',
+            element: <SpaceInfo />,
+            children: [
+              {
+                path: 'entity/:entityId',
+                element: <EntityInfo />
+              }
+            ]
+          },
+        ]
       },
-      {
-        path: 'space/:spaceId',
-        element: <SpaceInfo />
-      }
     ]
   }
 ]);

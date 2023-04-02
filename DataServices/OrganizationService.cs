@@ -9,13 +9,16 @@ using static Models.GqlCommon.Inputs.OrganizationInputs;
 
 namespace DataServices
 {
-    public class OrganizationService : DbFactoryFetcher, IOrganizationService
+    public class OrganizationService : IOrganizationService
     {
-        public OrganizationService(IDbContextFactory<ApplicationDbContext> dbContextFactory,
-            IMapper mapper) : base(dbContextFactory, mapper)
-        {
-        }
+        protected readonly ApplicationDbContext _context;
+        protected readonly IMapper _mapper;
 
+        public OrganizationService(ApplicationDbContext dbContextFactory, IMapper mapper)
+        {
+            this._context = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
+            this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        }
         public async Task<OrganizationDto> CreateOrganization(CreateOrganizationInput input)
         {
             string trimmedOrgName = input.organizationName.Trim();

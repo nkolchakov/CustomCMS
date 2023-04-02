@@ -12,16 +12,15 @@ ConfigurationManager configuration = builder.Configuration;
 // Add services to the container.
 
 builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddPooledDbContextFactory<ApplicationDbContext>(options =>
-    options.UseSqlServer(configuration.GetConnectionString("SqlServer"))
-           .EnableSensitiveDataLogging()
-
-    );
+builder.Services.AddDbContext<ApplicationDbContext>(
+    opt => opt.UseSqlServer(configuration.GetConnectionString("SqlServer"))
+    .EnableSensitiveDataLogging()
+);
 
 builder.Services.AddControllers();
 builder.Services
     .AddGraphQLServer()
-    .RegisterDbContext<ApplicationDbContext>(DbContextKind.Pooled)
+    .RegisterDbContext<ApplicationDbContext>(DbContextKind.Synchronized)
     .AddQueryType(q => q.Name("Query"))
     .AddType<ContentTypeQuery>()
     .AddType<OrganizationQuery>()

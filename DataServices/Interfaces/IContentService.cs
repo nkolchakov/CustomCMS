@@ -1,10 +1,11 @@
 ﻿using Models.DTO;
+using Models.Temp;
 
 namespace CMS.Interfaces
 {
     public interface IContentService
     {
-        Task<IEnumerable<ContentTypeDto>> GetEntityById(Guid id);
+        Task<ContentTypeNestedChildrenDto> GetEntityById(Guid id);
         Task<IEnumerable<ContentTypeDto>> GetEntitesForSpace(Guid spaceId);
     }
 }

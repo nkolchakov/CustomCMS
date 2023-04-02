@@ -128,6 +128,37 @@ export type ContentTypeFilterInput = {
   sys?: InputMaybe<SysFilterInput>;
 };
 
+export type ContentTypeNestedChildrenDto = {
+  __typename?: 'ContentTypeNestedChildrenDto';
+  basicFields: Array<BasicFieldDto>;
+  children: Array<ContentTypeNestedChildrenDto>;
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['UUID'];
+  level: Scalars['Int'];
+  name: Scalars['String'];
+  parentId?: Maybe<Scalars['UUID']>;
+};
+
+export type ContentTypeNestedChildrenDtoFilterInput = {
+  and?: InputMaybe<Array<ContentTypeNestedChildrenDtoFilterInput>>;
+  basicFields?: InputMaybe<ListFilterInputTypeOfBasicFieldDtoFilterInput>;
+  children?: InputMaybe<ListFilterInputTypeOfContentTypeNestedChildrenDtoFilterInput>;
+  description?: InputMaybe<StringOperationFilterInput>;
+  id?: InputMaybe<UuidOperationFilterInput>;
+  level?: InputMaybe<IntOperationFilterInput>;
+  name?: InputMaybe<StringOperationFilterInput>;
+  or?: InputMaybe<Array<ContentTypeNestedChildrenDtoFilterInput>>;
+  parentId?: InputMaybe<UuidOperationFilterInput>;
+};
+
+export type ContentTypeNestedChildrenDtoSortInput = {
+  description?: InputMaybe<SortEnumType>;
+  id?: InputMaybe<SortEnumType>;
+  level?: InputMaybe<SortEnumType>;
+  name?: InputMaybe<SortEnumType>;
+  parentId?: InputMaybe<SortEnumType>;
+};
+
 export type ContentTypeReferences = {
   __typename?: 'ContentTypeReferences';
   childEntity: ContentType;
@@ -209,6 +240,21 @@ export type DeleteSpacePayload = {
   boolean?: Maybe<Scalars['Boolean']>;
 };
 
+export type IntOperationFilterInput = {
+  eq?: InputMaybe<Scalars['Int']>;
+  gt?: InputMaybe<Scalars['Int']>;
+  gte?: InputMaybe<Scalars['Int']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  lt?: InputMaybe<Scalars['Int']>;
+  lte?: InputMaybe<Scalars['Int']>;
+  neq?: InputMaybe<Scalars['Int']>;
+  ngt?: InputMaybe<Scalars['Int']>;
+  ngte?: InputMaybe<Scalars['Int']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  nlt?: InputMaybe<Scalars['Int']>;
+  nlte?: InputMaybe<Scalars['Int']>;
+};
+
 export type ListFilterInputTypeOfBasicFieldDtoFilterInput = {
   all?: InputMaybe<BasicFieldDtoFilterInput>;
   any?: InputMaybe<Scalars['Boolean']>;
@@ -221,6 +267,13 @@ export type ListFilterInputTypeOfBasicFieldFilterInput = {
   any?: InputMaybe<Scalars['Boolean']>;
   none?: InputMaybe<BasicFieldFilterInput>;
   some?: InputMaybe<BasicFieldFilterInput>;
+};
+
+export type ListFilterInputTypeOfContentTypeNestedChildrenDtoFilterInput = {
+  all?: InputMaybe<ContentTypeNestedChildrenDtoFilterInput>;
+  any?: InputMaybe<Scalars['Boolean']>;
+  none?: InputMaybe<ContentTypeNestedChildrenDtoFilterInput>;
+  some?: InputMaybe<ContentTypeNestedChildrenDtoFilterInput>;
 };
 
 export type ListFilterInputTypeOfContentTypeReferencesFilterInput = {
@@ -298,6 +351,7 @@ export type Query = {
   __typename?: 'Query';
   entities: Array<ContentType>;
   entitiesBySpace: Array<ContentTypeDto>;
+  entityById: ContentTypeNestedChildrenDto;
   organizationsByUser: Array<OrganizationDto>;
   spacesByOrganization: Array<SpaceDto>;
 };
@@ -313,6 +367,13 @@ export type QueryEntitiesBySpaceArgs = {
   order?: InputMaybe<Array<ContentTypeDtoSortInput>>;
   spaceId: Scalars['UUID'];
   where?: InputMaybe<ContentTypeDtoFilterInput>;
+};
+
+
+export type QueryEntityByIdArgs = {
+  id: Scalars['UUID'];
+  order?: InputMaybe<Array<ContentTypeNestedChildrenDtoSortInput>>;
+  where?: InputMaybe<ContentTypeNestedChildrenDtoFilterInput>;
 };
 
 
@@ -438,13 +499,6 @@ export type UuidOperationFilterInput = {
   nlte?: InputMaybe<Scalars['UUID']>;
 };
 
-export type EntitiesBySpaceQueryVariables = Exact<{
-  spaceId: Scalars['UUID'];
-}>;
-
-
-export type EntitiesBySpaceQuery = { __typename?: 'Query', entitiesBySpace: Array<{ __typename?: 'ContentTypeDto', id: any, name: string, description?: string | null }> };
-
 export type CreateOrganizationMutationVariables = Exact<{
   input: CreateOrganizationInput;
 }>;
@@ -488,7 +542,6 @@ export type CreateSpaceMutationVariables = Exact<{
 export type CreateSpaceMutation = { __typename?: 'Mutation', createSpace: { __typename?: 'CreateSpacePayload', id: any, name: string } };
 
 
-export const EntitiesBySpaceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"EntitiesBySpace"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"spaceId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"entitiesBySpace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"spaceId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"spaceId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]} as unknown as DocumentNode<EntitiesBySpaceQuery, EntitiesBySpaceQueryVariables>;
 export const CreateOrganizationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateOrganization"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateOrganizationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOrganization"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<CreateOrganizationMutation, CreateOrganizationMutationVariables>;
 export const DeleteOrganizationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteOrganization"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteOrganizationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteOrganization"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"boolean"}}]}}]}}]} as unknown as DocumentNode<DeleteOrganizationMutation, DeleteOrganizationMutationVariables>;
 export const OrganizationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Organizations"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"organizationsByUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"userId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"spaces"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"users"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userRole"}}]}}]}}]}}]} as unknown as DocumentNode<OrganizationsQuery, OrganizationsQueryVariables>;

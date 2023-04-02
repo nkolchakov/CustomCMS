@@ -13,7 +13,6 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\nquery EntitiesBySpace($spaceId: UUID!){\n    entitiesBySpace(spaceId: $spaceId){\n        id,\n        name,\n        description\n    }\n}\n": types.EntitiesBySpaceDocument,
     "\n    mutation CreateOrganization($input: CreateOrganizationInput!){\n            createOrganization(input: $input){\n                id,\n                name\n            }\n    } \n": types.CreateOrganizationDocument,
     "\n    mutation DeleteOrganization($input: DeleteOrganizationInput!) {\n        deleteOrganization(input: $input) {\n            boolean\n        }\n    }\n": types.DeleteOrganizationDocument,
     "\nquery Organizations($userId: UUID!) {\n    organizationsByUser(userId: $userId) {\n               id,\n               name,\n               spaces {\n                   id,\n                   name\n               },\n               users {\n                id,\n                userRole\n               }\n           }\n}": types.OrganizationsDocument,
@@ -36,10 +35,6 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\nquery EntitiesBySpace($spaceId: UUID!){\n    entitiesBySpace(spaceId: $spaceId){\n        id,\n        name,\n        description\n    }\n}\n"): (typeof documents)["\nquery EntitiesBySpace($spaceId: UUID!){\n    entitiesBySpace(spaceId: $spaceId){\n        id,\n        name,\n        description\n    }\n}\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

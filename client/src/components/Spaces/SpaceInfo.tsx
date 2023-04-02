@@ -1,14 +1,14 @@
 import { useQuery } from "@apollo/client";
 import { DataGrid, GridRowParams, MuiEvent } from '@mui/x-data-grid';
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import { ContentTypeDto, EntitiesBySpaceQuery } from "../../generated-gql/graphql";
+import { ContentTypeDto } from "../../generated-gql/graphql";
 import { QUERY_ENTITES } from "../Content/query";
 import { columns } from "./tableConfig";
 
 const SpaceInfo = () => {
     const navigate = useNavigate();
     const { spaceId, entityId } = useParams();
-    const { data, error, loading } = useQuery<EntitiesBySpaceQuery>(
+    const { data, error, loading } = useQuery(
         QUERY_ENTITES, {
         variables: {
             spaceId

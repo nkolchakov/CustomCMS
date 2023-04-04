@@ -1,8 +1,6 @@
-import { Button, IconButton, Snackbar } from '@mui/material'
-import { MouseEventHandler, useState } from 'react'
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
-import { CSSProperties } from 'react';
-import { Box, display } from '@mui/system';
+import { IconButton, Snackbar } from '@mui/material';
+import { CSSProperties, useState } from 'react';
 
 const CopyToClipboardButton = ({ text, style }: { text: string, style?: CSSProperties }) => {
     const [open, setOpen] = useState(false)

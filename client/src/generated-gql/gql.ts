@@ -13,6 +13,10 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\nquery EntitiesBySpace($spaceId: UUID!){\n    entitiesBySpace(spaceId: $spaceId){\n        id,\n        name,\n        description\n    }\n}\n": types.EntitiesBySpaceDocument,
+    "\n    fragment EntityChildrenFields on ContentTypeNestedChildrenDto{\n        id,\n        name,\n        description\n    }\n": types.EntityChildrenFieldsFragmentDoc,
+    "\nfragment EntityChildrenRecursive on ContentTypeNestedChildrenDto{\n    children{\n        ...EntityChildrenFields\n        children {\n            ...EntityChildrenFields\n            children {\n                ...EntityChildrenFields\n                children {\n                    ...EntityChildrenFields\n                    children {\n                        ...EntityChildrenFields\n                    }\n                }\n            }\n        }\n    }\n}\n": types.EntityChildrenRecursiveFragmentDoc,
+    "\n\n\nquery EntityById($id: UUID!){\n    entityById(id: $id){\n      basicFields {\n        name,\n        value\n      },\n      ...EntityChildrenFields,\n      ...EntityChildrenRecursive\n    }\n}\n": types.EntityByIdDocument,
     "\n    mutation CreateOrganization($input: CreateOrganizationInput!){\n            createOrganization(input: $input){\n                id,\n                name\n            }\n    } \n": types.CreateOrganizationDocument,
     "\n    mutation DeleteOrganization($input: DeleteOrganizationInput!) {\n        deleteOrganization(input: $input) {\n            boolean\n        }\n    }\n": types.DeleteOrganizationDocument,
     "\nquery Organizations($userId: UUID!) {\n    organizationsByUser(userId: $userId) {\n               id,\n               name,\n               spaces {\n                   id,\n                   name\n               },\n               users {\n                id,\n                userRole\n               }\n           }\n}": types.OrganizationsDocument,
@@ -35,6 +39,22 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\nquery EntitiesBySpace($spaceId: UUID!){\n    entitiesBySpace(spaceId: $spaceId){\n        id,\n        name,\n        description\n    }\n}\n"): (typeof documents)["\nquery EntitiesBySpace($spaceId: UUID!){\n    entitiesBySpace(spaceId: $spaceId){\n        id,\n        name,\n        description\n    }\n}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    fragment EntityChildrenFields on ContentTypeNestedChildrenDto{\n        id,\n        name,\n        description\n    }\n"): (typeof documents)["\n    fragment EntityChildrenFields on ContentTypeNestedChildrenDto{\n        id,\n        name,\n        description\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\nfragment EntityChildrenRecursive on ContentTypeNestedChildrenDto{\n    children{\n        ...EntityChildrenFields\n        children {\n            ...EntityChildrenFields\n            children {\n                ...EntityChildrenFields\n                children {\n                    ...EntityChildrenFields\n                    children {\n                        ...EntityChildrenFields\n                    }\n                }\n            }\n        }\n    }\n}\n"): (typeof documents)["\nfragment EntityChildrenRecursive on ContentTypeNestedChildrenDto{\n    children{\n        ...EntityChildrenFields\n        children {\n            ...EntityChildrenFields\n            children {\n                ...EntityChildrenFields\n                children {\n                    ...EntityChildrenFields\n                    children {\n                        ...EntityChildrenFields\n                    }\n                }\n            }\n        }\n    }\n}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\n\nquery EntityById($id: UUID!){\n    entityById(id: $id){\n      basicFields {\n        name,\n        value\n      },\n      ...EntityChildrenFields,\n      ...EntityChildrenRecursive\n    }\n}\n"): (typeof documents)["\n\n\nquery EntityById($id: UUID!){\n    entityById(id: $id){\n      basicFields {\n        name,\n        value\n      },\n      ...EntityChildrenFields,\n      ...EntityChildrenRecursive\n    }\n}\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -143,11 +143,11 @@ SELECT * From Fields where ContentTypeId = @id
                         Type = (CMS_TYPE)reader.GetInt32(reader.GetOrdinal("Type")),
                     };
 
+                    rootElement.BasicFields.Add(basicField);
                 }
 
 
                 return rootElement;
-
 
             }
             catch (Exception ex)

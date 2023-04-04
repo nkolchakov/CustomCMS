@@ -42,6 +42,10 @@ ${ENTITES_NESTED_CHILDREN}
 ${ENTITES_RERCURSIVE}
 query EntityById($id: UUID!){
     entityById(id: $id){
+      basicFields {
+        name,
+        value
+      },
       ...EntityChildrenFields,
       ...EntityChildrenRecursive
     }

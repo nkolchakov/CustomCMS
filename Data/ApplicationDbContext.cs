@@ -61,6 +61,11 @@ namespace CMS.Data
                     });
 
             modelBuilder.Entity<Space>().HasData(spacesList);
+            modelBuilder.Entity<BasicField>()
+                .HasMany(f => f.ListItems)
+                .WithOne(l => l.BasicField)
+                .HasForeignKey(l => l.BasicFieldId);
+
             modelBuilder.Entity<BasicField>().HasData(basicFields);
 
         }

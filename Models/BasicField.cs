@@ -1,4 +1,5 @@
-﻿using Models.Enums;
+﻿using Models;
+using Models.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace CMS.Model
@@ -15,5 +16,7 @@ namespace CMS.Model
 
         public Guid ContentTypeId { get; set; }
         public ContentType ContentType { get; set; }
+
+        public ICollection<ListItem> ListItems { get; set; } = new HashSet<ListItem>();
     }
 }

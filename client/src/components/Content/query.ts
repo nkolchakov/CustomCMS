@@ -44,7 +44,8 @@ query EntityById($id: UUID!){
     entityById(id: $id){
       basicFields {
         name,
-        value
+        value,
+        type
       },
       ...EntityChildrenFields,
       ...EntityChildrenRecursive

@@ -47,4 +47,4 @@ app.UseCors(builder => builder
                     .AllowAnyMethod()
 );
 app.MapGraphQL(path: "/graphql");
-app.Run();
+app.Run(); 

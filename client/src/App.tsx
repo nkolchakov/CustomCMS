@@ -30,6 +30,7 @@ function App() {
   return (
     <Box
       display={'flex'}
+      marginTop={'50px'}
       flexDirection='row'>
       <Box width={drawerWidth}>
         <Drawer

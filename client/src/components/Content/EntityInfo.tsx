@@ -4,7 +4,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Button, Divider } from "@mui/material";
 import Box from "@mui/material/Box";
 import { Field, FieldArray, Formik } from "formik";
-import { useState } from "react";
+import { cloneElement, useState } from "react";
 import { Form, useParams } from "react-router-dom";
 import { BasicFieldDto, EntityByIdQuery } from "../../generated-gql/graphql";
 import { AddDynamicTypeModal } from "../common/AddTypeModal";
@@ -31,19 +31,20 @@ const EntityInfo = () => {
         setAtPosition(atPosition);
     }
 
-    const getField = (value: Partial<BasicFieldDto> | undefined, index: number, setFieldValueCb?: SetFieldValueCallback) => {
+    const getField = (
+        value: Partial<BasicFieldDto> | undefined, index: number,
+        setFieldValueCb?: SetFieldValueCallback) => {
         if (value?.type) {
             const obj = TYPES_MAPPING[value.type.toLowerCase()];
             if (obj && obj.component) {
                 const comp = obj.component(`basicFields[${index}].value`, value.value, setFieldValueCb);
-                return comp;
+                if (comp) {
+                    const componentWithId = cloneElement(comp, { id: `value-${index}` });
+                    return componentWithId;
+                }
             }
         }
         return null
-    }
-
-    const handleSubmit = () => {
-
     }
 
     return (
@@ -71,27 +72,39 @@ const EntityInfo = () => {
                                         {values.basicFields && values.basicFields.length > 0 ? (
                                             values.basicFields.map((value, i) => (
                                                 <div key={i}>
-                                                    {JSON.stringify(value)}
-                                                    <StyledField
-                                                        name={`basicFields[${i}].name`} />
-                                                    {/* <StyledField
-                                                        name={`basicFields[${i}].value`} /> */}
-                                                    {getField(value, i, setFieldValue)}
-                                                    <Button
-                                                        size='small'
-                                                        type="button"
-                                                        onClick={() => onOpenModal(i)}
-                                                    >
-                                                        <AddBoxIcon />
-                                                    </Button>
-                                                    <Button
-                                                        size='small'
-                                                        type="button"
-                                                        color='secondary'
-                                                        onClick={() => remove(i)}
-                                                    >
-                                                        <DeleteForeverIcon />
-                                                    </Button>
+                                                    <Box display='flex'
+                                                        flexWrap={'wrap'} >
+                                                        <div>
+                                                            <label htmlFor={`name-${i}`}>
+                                                                Field name: &nbsp;
+                                                            </label>
+                                                            <StyledField
+                                                                id={`name-${i}`}
+                                                                name={`basicFields[${i}].name`} />
+                                                        </div>
+                                                        <div>
+                                                            <label htmlFor={`value-${i}`}>
+                                                                Value: &nbsp;
+                                                            </label>
+                                                            {getField(value, i, setFieldValue)}
+
+                                                            <Button
+                                                                size='small'
+                                                                type="button"
+                                                                onClick={() => onOpenModal(i)}
+                                                            >
+                                                                <AddBoxIcon />
+                                                            </Button>
+                                                            <Button
+                                                                size='small'
+                                                                type="button"
+                                                                color='secondary'
+                                                                onClick={() => remove(i)}
+                                                            >
+                                                                <DeleteForeverIcon />
+                                                            </Button>
+                                                        </div>
+                                                    </Box>
                                                     <Divider style={{ marginBottom: 20 }} light />
                                                 </div>
                                             ))
@@ -134,8 +147,9 @@ const EntityInfo = () => {
                                 Save
                             </Button>
                         </Form>
-                    )}
-                </Formik>}
+                    )
+                    }
+                </Formik >}
 
             {data && <EntityTreeView data={data} />}
         </Box >

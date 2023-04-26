@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Input } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
 import { useState } from 'react';
@@ -28,24 +28,29 @@ export const ChipsArray = ({ onChange, initialValues }: ChipsArrayProps) => {
         }
     }
 
+    const style = {
+        display: 'flex',
+        justifyContent: 'center',
+        listStyle: 'none',
+        p: 0.5,
+        m: 0
+    }
+
     return (
         <Box
             display='flex'
             flexDirection={'row'}
             columnGap={3}>
-            <input type='text'
+            <label htmlFor='new-list-item'>new item</label>
+            <Input
+
+                type='text'
+                id='new-list-item'
                 onKeyDownCapture={captureOnKeyDown}
                 value={newValue}
                 onChange={(event: any) => setNewValue(event.target.value?.trim())} />
             <Paper
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    flexWrap: 'wrap',
-                    listStyle: 'none',
-                    p: 0.5,
-                    m: 0,
-                }}
+                style={{ ...style, flexWrap: 'wrap' }}
                 component="ul"
             >
                 {Array.from(chipData)

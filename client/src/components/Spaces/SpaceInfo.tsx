@@ -16,7 +16,13 @@ import { columns } from "./tableConfig";
 const SpaceInfo = () => {
     const navigate = useNavigate();
     const { spaceId, entityId } = useParams();
-
+    const [open, setOpen] = useState(false)
+    const handleClose = () => {
+        setOpen(false);
+    }
+    const handleOpen = () => {
+        setOpen(true);
+    }
     const {
         setSpaceId,
         organizationId,
@@ -46,6 +52,12 @@ const SpaceInfo = () => {
         }
     }, [refreshEntitiesList])
 
+
+
+    const initialValues = {
+        name: "",
+        description: ""
+    }
     const [mutationFunction, ...mutationResult]
         = useMutation<CreateContentTypePayload, MutationCreateContentTypeArgs>(
             NEW_CONTENT_TYPE, {
@@ -87,22 +99,8 @@ const SpaceInfo = () => {
                 />
             </div> : <p>no data</p>);
 
-    const [open, setOpen] = useState(false)
-    const handleClose = () => {
-        setOpen(false);
-    }
-    const handleOpen = () => {
-        setOpen(true);
-    }
-
-    const initialValues = {
-        name: "",
-        description: ""
-    }
-
-
-    return (
-        <div>
+    const entitiesListLayout =
+        !entityId && <div>
             <Button
                 onClick={handleOpen}
                 variant="contained"
@@ -110,7 +108,12 @@ const SpaceInfo = () => {
                 size='small'>
                 New Content Type
             </Button>
-            {!entityId && tableView}
+            {tableView}
+        </div>
+
+    return (
+        <div>
+            {entitiesListLayout}
             <Outlet />
             <Modal
                 open={open}

@@ -44,18 +44,22 @@ const renderTree = (nodes: ContentTypeNestedChildrenDto) => (
     </TreeItem >
 );
 
-export const EntityTreeView = ({ data }: { data: EntityByIdQuery }) => (
-    <TreeView
-        aria-label="rich object"
-        defaultExpanded={['root']}
-        defaultCollapseIcon={<ExpandMoreIcon />}
-        defaultExpandIcon={<ChevronRightIcon />}
-        sx={{
-            flexGrow: 1,
-            height: "50vh",
-            maxWidth: "50vw"
-        }}
-    >
-        {renderTree(data?.entityById as ContentTypeNestedChildrenDto)}
-    </TreeView>
-)
+export const EntityTreeView = ({ data }: { data: EntityByIdQuery }) => {
+    const entityData = data?.entityById as ContentTypeNestedChildrenDto;
+    return (
+        <TreeView
+            aria-label="rich object"
+            defaultExpanded={['root']}
+            defaultCollapseIcon={<ExpandMoreIcon />}
+            defaultExpandIcon={<ChevronRightIcon />}
+            style={{
+                flexGrow: 1,
+                height: "50vh",
+            }}
+        >
+            {
+                entityData.children.length > 0 &&
+                renderTree(entityData)
+            }
+        </TreeView>)
+}

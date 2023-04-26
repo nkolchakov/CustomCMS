@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using CMS.Data;
 using CMS.Interfaces;
+using CMS.Model;
 using EntityFrameworkCore.RawSQLExtensions.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Models.DTO;
 using Models.Enums;
 using Models.Temp;
 using System.Data.Common;
+using static Models.GqlCommon.Inputs.ContentTypeInputs;
 
 namespace CMS.DataServices
 {
@@ -19,6 +21,37 @@ namespace CMS.DataServices
         {
             this._context = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
             this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        }
+
+        // TODO: User authorization. Check if user is inside the provided space.
+        public async Task<ContentTypeDto> CreateContentType(CreateContentTypeInput input)
+        {
+            if (string.IsNullOrEmpty(input.UniqueName))
+            {
+                throw new ArgumentNullException(nameof(input.UniqueName));
+            }
+
+            bool nameAlreadyExists = await _context
+                .ContentTypes
+                .AnyAsync(c => c.Name == input.UniqueName);
+
+            if (nameAlreadyExists)
+            {
+                throw new ArgumentException($"Name {input.UniqueName} already exists !");
+            }
+
+            var newContentType = new ContentType()
+            {
+                Id = Guid.NewGuid(),
+                Name = input.UniqueName,
+                Description = input.Description,
+                SpaceId = input.SpaceId
+            };
+            this._context.ContentTypes.Add(newContentType);
+            await this._context.SaveChangesAsync();
+            
+            var contentDto = _mapper.Map<ContentTypeDto>(newContentType);
+            return contentDto;
         }
 
         public async Task<IEnumerable<ContentTypeDto>> GetEntitesForSpace(Guid spaceId)

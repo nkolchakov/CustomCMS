@@ -8,6 +8,7 @@ import OrganizationsList from './components/Organizations/OrganizationsList';
 import OrganizationInfo from './components/Organizations/OrganizationInfo';
 import SpaceInfo from './components/Spaces/SpaceInfo';
 import EntityInfo from './components/Content/EntityInfo';
+import CMSContextProvider from './CMSContext';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -54,7 +55,9 @@ const router = createBrowserRouter([
 root.render(
   <ApolloProvider client={client}>
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <CMSContextProvider>
+        <RouterProvider router={router} />
+      </CMSContextProvider>
     </React.StrictMode>
   </ApolloProvider>
 );

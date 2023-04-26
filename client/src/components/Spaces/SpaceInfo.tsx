@@ -1,26 +1,67 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { Box, Button, Modal } from "@mui/material";
-import { style } from "@mui/system";
 import { DataGrid, GridRowParams, MuiEvent } from '@mui/x-data-grid';
-import { Field, Formik } from "formik";
-import { useState } from "react";
-import { Form, Outlet, useNavigate, useParams } from "react-router-dom";
+import { Field, Form, Formik } from "formik";
+import { useContext, useEffect, useState } from "react";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { CMSContext, CMSContextType } from "../../CMSContext";
 import { createElModalStyle } from "../../common/styles";
-import { TYPE_NAMES } from "../../constants";
-import { ContentTypeDto } from "../../generated-gql/graphql";
-import { ContentTypeField, TYPES_MAPPING } from "../common/ContentTypes";
+import { ContentTypeDto, CreateContentTypePayload, MutationCreateContentTypeArgs } from "../../generated-gql/graphql";
+import { getEntityUrl } from "../common/helpers";
+import { NEW_CONTENT_TYPE } from "../Content/mutation";
 import { QUERY_ENTITES } from "../Content/query";
+import { StyledField } from "../Content/styles";
 import { columns } from "./tableConfig";
 
 const SpaceInfo = () => {
     const navigate = useNavigate();
     const { spaceId, entityId } = useParams();
-    const { data, error, loading } = useQuery(
+
+    const {
+        setSpaceId,
+        organizationId,
+        refreshEntitiesList,
+        setRefreshEntitiesList }
+        = useContext(CMSContext) as CMSContextType;
+
+    const { data, error, loading, refetch } = useQuery(
         QUERY_ENTITES, {
         variables: {
             spaceId
+        },
+        onCompleted: () => setRefreshEntitiesList(false)
+    });
+
+    useEffect(() => {
+        if (spaceId) {
+            setSpaceId(spaceId);
         }
-    })
+    }, [spaceId])
+
+
+    useEffect(() => {
+        if (refreshEntitiesList) {
+            console.log('refetching ');
+            refetch();
+        }
+    }, [refreshEntitiesList])
+
+    const [mutationFunction, ...mutationResult]
+        = useMutation<CreateContentTypePayload, MutationCreateContentTypeArgs>(
+            NEW_CONTENT_TYPE, {
+            errorPolicy: "all",
+            onCompleted: (data: any) => {
+                const entityId = data?.createContentType?.id;
+                if (!entityId) {
+                    console.error("no id provided when creating the entity");
+                }
+                handleClose();
+                const redirectTo = getEntityUrl(organizationId, spaceId!, entityId);
+                setRefreshEntitiesList(true);
+                navigate(redirectTo);
+            }
+        }
+        );
 
     // TODO: delete content types. For nested, detach them first.
 
@@ -54,10 +95,12 @@ const SpaceInfo = () => {
         setOpen(true);
     }
 
-    const onTypeChange = (e: any) => {
-        const typeKey = e.target.value;
-        console.log(typeKey);
+    const initialValues = {
+        name: "",
+        description: ""
     }
+
+
     return (
         <div>
             <Button
@@ -84,33 +127,42 @@ const SpaceInfo = () => {
                     <h2 id="parent-modal-title">Create Content Type</h2>
                     {loading ? '...' :
                         <Formik
-                            initialValues={data?.entityById!}
-                            onSubmit={({ basicFields }) => {
-                                console.log(basicFields)
+                            initialValues={initialValues}
+                            onSubmit={(fields) => {
+                                mutationFunction({
+                                    variables: {
+                                        input: {
+                                            uniqueName: fields.name,
+                                            description: fields.description,
+                                            spaceId
+                                        }
+                                    }
+                                });
+                                console.log(fields, spaceId, organizationId)
                             }}
                         >
                             {({ values, submitForm }) => (
                                 <Form style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <Field type="name" name="name" palceholder={"Name identifier"} />
-                                    <Field as="select" name="type" onChange={onTypeChange}>
-                                        {Object.values(TYPE_NAMES)
-                                            .map((key: string) => <option value={key}>
-                                                {TYPES_MAPPING[key].label}
-                                            </option>)
-                                        }
-                                    </Field>
-                                    <ContentTypeField selected={"test"} />
-                                    <div role="group" aria-labelledby="my-radio-group">
-                                        Required
-                                        <label>
-                                            <Field type="radio" name="isRequired" value="true" />
-                                            Yes
-                                        </label>
-                                        <label>
-                                            <Field type="radio" name="isRequired" value="false" />
-                                            No
-                                        </label>
-                                    </div>
+                                    <label htmlFor='name'>Unique Name</label>
+                                    <StyledField
+                                        id="name"
+                                        name="name"
+                                        label="unique name"
+                                        palceholder="Name identifier" />
+                                    <label htmlFor='description'>Description</label>
+                                    <Field
+                                        id='description'
+                                        as='textarea'
+                                        name="description"
+                                        label="Description"
+                                        style={{ height: '50px' }}
+                                        palceholder={"Description"} />
+                                    <Button
+                                        style={{ marginTop: "20px" }}
+                                        type='submit'
+                                        variant='contained'>
+                                        Create
+                                    </Button>
                                 </Form>
                             )}
                         </Formik>

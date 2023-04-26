@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CMS.GraphQL.Mutation;
 using CMS.Model;
 using Models.DTO;
 
@@ -16,6 +17,7 @@ namespace CMS.AutoMapper
                                src => src.OrganizationUser.Select(o => o.User)));
             CreateMap<Space, SpaceDto>();
             CreateMap<User, UserDto>();
+            CreateMap<ContentTypeDto, CreateContentTypePayload>();
         }
     }
 }

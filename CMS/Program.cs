@@ -26,6 +26,7 @@ builder.Services
     .AddType<OrganizationQuery>()
     .AddMutationType(m => m.Name("Mutation"))
     .AddType<OrganizationMutation>()
+    .AddType<ContentTypeMutation>()
     .AddMutationConventions(applyToAllMutations: true)
     .AddProjections()
     .AddSorting()

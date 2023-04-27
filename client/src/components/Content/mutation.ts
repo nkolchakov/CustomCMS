@@ -10,3 +10,10 @@ export const NEW_CONTENT_TYPE = gql`
             }
     } 
 `
+export const UPDATE_CONTENT_FIELDS = gql`
+    mutation UpdateContentFields($input: UpdateContentFieldsInput!){
+        updateContentFields(input: $input){
+            boolean
+        }
+    }
+`

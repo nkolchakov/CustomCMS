@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Button, Divider } from "@mui/material";
@@ -6,10 +6,13 @@ import Box from "@mui/material/Box";
 import { Field, FieldArray, Formik } from "formik";
 import { cloneElement, useState } from "react";
 import { Form, useParams } from "react-router-dom";
-import { BasicFieldDto, EntityByIdQuery } from "../../generated-gql/graphql";
+import { EMPTY_GUID } from "../../constants";
+import { BasicFieldDto, EntityByIdQuery, MutationUpdateContentFieldsArgs, UpdateContentFieldsPayload } from "../../generated-gql/graphql";
 import { AddDynamicTypeModal } from "../common/AddTypeModal";
 import { SetFieldValueCallback, TYPES_MAPPING } from "../common/ContentTypes";
+import { isValidGuid, serializeField } from "../common/helpers";
 import { EntityTreeView } from "./EntityTreeView";
+import { UPDATE_CONTENT_FIELDS } from "./mutation";
 import { QUERY_SINGLE_ENTITY } from "./query";
 import { StyledField } from "./styles";
 
@@ -18,6 +21,13 @@ const EntityInfo = () => {
     let { loading, error, data } = useQuery<EntityByIdQuery>(QUERY_SINGLE_ENTITY, {
         variables: { id: entityId },
     });
+
+    const [mutationFunction] = useMutation<UpdateContentFieldsPayload,
+        MutationUpdateContentFieldsArgs>(UPDATE_CONTENT_FIELDS, {
+            onCompleted: (data: any) => {
+                console.log("mutation completed ", data)
+            }
+        })
 
     const newBasicField = (type: string, value: string = "", name: string = ""): { type: string, name: string, value: string } => {
         return { type, value, name }
@@ -59,8 +69,28 @@ const EntityInfo = () => {
                 <Formik
                     enableReinitialize={true}
                     initialValues={data?.entityById!}
-                    onSubmit={({ basicFields }) => {
-                        console.log(basicFields)
+                    onSubmit={async ({ basicFields }) => {
+
+                        const serializedFields = await Promise.all(
+                            basicFields.map(async field => {
+                                return Object.assign({},
+                                    field,
+                                    {
+                                        id: isValidGuid(field.id) ? field.id : EMPTY_GUID,
+                                        value: await serializeField(field),
+                                        __typename: undefined
+                                    })
+                            }));
+
+                        console.log(serializedFields)
+                        mutationFunction({
+                            variables: {
+                                input: {
+                                    entityId,
+                                    fields: serializedFields
+                                }
+                            }
+                        })
                     }}
                 >
                     {({ values, submitForm, setFieldValue }) => (
@@ -76,7 +106,7 @@ const EntityInfo = () => {
                                                         flexWrap={'wrap'} >
                                                         <div>
                                                             <label htmlFor={`name-${i}`}>
-                                                                Field name: &nbsp;
+                                                                Unique name: &nbsp;
                                                             </label>
                                                             <StyledField
                                                                 id={`name-${i}`}

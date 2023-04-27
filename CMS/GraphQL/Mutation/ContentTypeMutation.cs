@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CMS.Interfaces;
+using Models.GqlCommon.Inputs;
 using static Models.GqlCommon.Inputs.ContentTypeInputs;
 
 namespace CMS.GraphQL.Mutation
@@ -25,6 +26,31 @@ namespace CMS.GraphQL.Mutation
             {
                 var result = mapper.Map<CreateContentTypePayload>(contentTypeDto);
                 return result;
+
+            }
+            catch (Exception e)
+            {
+                throw new GraphQLException(e.Message);
+            }
+        }
+
+        public async Task<bool> UpdateContentFields(UpdateContentFields input,
+            [Service] IContentService contentService, [Service] IMapper mapper)
+        {
+            if (contentService == null)
+            {
+                throw new ArgumentNullException(nameof(contentService));
+            }
+
+            if (mapper == null)
+            {
+                throw new ArgumentNullException(nameof(mapper));
+            }
+
+            try
+            {
+                await contentService.UpdateContentFields(input);
+                return true;
 
             }
             catch (Exception e)

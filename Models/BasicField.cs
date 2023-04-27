@@ -9,6 +9,8 @@ namespace CMS.Model
         [Key]
         public Guid Id { get; set; }
         [Required]
+
+        // unique per Entity
         public string Name { get; set; }
         public CMS_TYPE Type { get; set; }
         public string Value { get; set; }

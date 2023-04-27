@@ -43,6 +43,7 @@ ${ENTITES_RERCURSIVE}
 query EntityById($id: UUID!){
     entityById(id: $id){
       basicFields {
+        id,
         name,
         value,
         type

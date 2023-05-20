@@ -13,12 +13,12 @@ namespace CMS.Model
         // unique per Entity
         public string Name { get; set; }
         public CMS_TYPE Type { get; set; }
-        public string Value { get; set; }
+        public string? Value { get; set; }
         public bool? Required { get; set; }
 
         public Guid ContentTypeId { get; set; }
         public ContentType ContentType { get; set; }
 
-        public ICollection<ListItem> ListItems { get; set; } = new HashSet<ListItem>();
+        public ICollection<ListItem> ListItems { get; set; } = new List<ListItem>();
     }
 }

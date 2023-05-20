@@ -11,8 +11,10 @@ namespace Models.DTO
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public CMS_TYPE Type { get; set; }
-        public string Value { get; set; }   
+        public int Type { get; set; }
+        public string? Value { get; set; }
         public bool? Required { get; set; }
+
+        public List<ListItemDto>? ListItems { get; set; } = new List<ListItemDto>();
     }
 }

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Form } from "react-router-dom";
 import { createElModalStyle } from "../../common/styles";
 import { TYPE_NAMES } from "../../constants";
+import { Cms_Type } from "../../generated-gql/graphql";
 import { TYPES_MAPPING } from "./ContentTypes";
 
 
@@ -11,7 +12,7 @@ interface AddDynamicTypeModalProps {
     open: boolean,
     onClose: () => void,
     onSubmit: (values: any) => void,
-    onAddInput: (selectedType: string) => void,
+    onAddInput: (selectedType: number) => void,
     isLoading?: boolean
 }
 
@@ -22,7 +23,7 @@ export const AddDynamicTypeModal = ({
     onAddInput,
     isLoading = false,
 }: AddDynamicTypeModalProps) => {
-    const [selectedType, setSelectedType] = useState('')
+    const [selectedType, setSelectedType] = useState<number>(0)
 
     return (
         <Modal
@@ -47,14 +48,14 @@ export const AddDynamicTypeModal = ({
                             <Form style={{ display: 'flex', flexDirection: 'column' }}>
                                 <Field as="select" name="type"
                                     onChange={(e: any) => setSelectedType(e.target.value)}>
-                                    {Object.values(TYPE_NAMES)
-                                        .map((key: string) =>
-                                            <option key={key} value={key}>
-                                                {TYPES_MAPPING[key].label}
+                                    {Object.values(Cms_Type)
+                                        .map((key: string, index: number) =>
+                                            <option key={key} value={index}>
+                                                {TYPES_MAPPING[index].label}
                                             </option>)
                                     }
                                 </Field>
-                                {selectedType && <p>{TYPES_MAPPING[selectedType].description}</p>}
+                                {selectedType !== undefined && <p>{TYPES_MAPPING[selectedType].description}</p>}
                                 <Button
                                     onClick={() => {
                                         onAddInput(selectedType);

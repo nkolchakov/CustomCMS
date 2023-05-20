@@ -45,8 +45,12 @@ query EntityById($id: UUID!){
       basicFields {
         id,
         name,
-        value,
-        type
+        value, 
+        type,
+        listItems {
+            id,
+            value
+        }
       },
       ...EntityChildrenFields,
       ...EntityChildrenRecursive

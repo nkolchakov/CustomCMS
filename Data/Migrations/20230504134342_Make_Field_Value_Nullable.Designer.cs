@@ -4,6 +4,7 @@ using CMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230504134342_Make_Field_Value_Nullable")]
+    partial class Make_Field_Value_Nullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +51,7 @@ namespace CMS.Migrations
 
                     b.HasIndex("ContentTypeId");
 
-                    b.ToTable("Fields", (string)null);
+                    b.ToTable("Fields");
 
                     b.HasData(
                         new
@@ -158,7 +161,7 @@ namespace CMS.Migrations
 
                     b.HasIndex("SysId");
 
-                    b.ToTable("ContentTypes", (string)null);
+                    b.ToTable("ContentTypes");
 
                     b.HasData(
                         new
@@ -215,7 +218,7 @@ namespace CMS.Migrations
 
                     b.HasIndex("ChildId");
 
-                    b.ToTable("ContentTypeReferences", (string)null);
+                    b.ToTable("ContentTypeReferences");
 
                     b.HasData(
                         new
@@ -248,7 +251,7 @@ namespace CMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Organizations", (string)null);
+                    b.ToTable("Organizations");
 
                     b.HasData(
                         new
@@ -285,7 +288,7 @@ namespace CMS.Migrations
 
                     b.HasIndex("OrganizationId");
 
-                    b.ToTable("Spaces", (string)null);
+                    b.ToTable("Spaces");
 
                     b.HasData(
                         new
@@ -318,7 +321,7 @@ namespace CMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sys", (string)null);
+                    b.ToTable("Sys");
                 });
 
             modelBuilder.Entity("CMS.Model.User", b =>
@@ -332,7 +335,7 @@ namespace CMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
 
                     b.HasData(
                         new
@@ -370,7 +373,7 @@ namespace CMS.Migrations
 
                     b.HasIndex("BasicFieldId");
 
-                    b.ToTable("ListItem", (string)null);
+                    b.ToTable("ListItem");
                 });
 
             modelBuilder.Entity("Models.OrganizationUser", b =>
@@ -385,7 +388,7 @@ namespace CMS.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("OrganizationUser", (string)null);
+                    b.ToTable("OrganizationUser");
 
                     b.HasData(
                         new

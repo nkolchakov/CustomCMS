@@ -2,10 +2,14 @@
 using CMS.Data;
 using CMS.Interfaces;
 using CMS.Model;
+using DataServices;
 using EntityFrameworkCore.RawSQLExtensions.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Models;
 using Models.DTO;
 using Models.Enums;
+using Models.GqlCommon.Inputs;
 using Models.Temp;
 using System.Data.Common;
 using static Models.GqlCommon.Inputs.ContentTypeInputs;
@@ -16,11 +20,12 @@ namespace CMS.DataServices
     {
         protected readonly ApplicationDbContext _context;
         protected readonly IMapper _mapper;
-
-        public ContentService(ApplicationDbContext dbContextFactory, IMapper mapper)
+        protected readonly FieldProcessorFactory _processorFactory;
+        public ContentService(ApplicationDbContext dbContextFactory, IMapper mapper, FieldProcessorFactory fieldProcessorFactory)
         {
             this._context = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
             this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this._processorFactory = fieldProcessorFactory ?? throw new ArgumentNullException(nameof(fieldProcessorFactory));
         }
 
         // TODO: User authorization. Check if user is inside the provided space.
@@ -49,7 +54,7 @@ namespace CMS.DataServices
             };
             this._context.ContentTypes.Add(newContentType);
             await this._context.SaveChangesAsync();
-            
+
             var contentDto = _mapper.Map<ContentTypeDto>(newContentType);
             return contentDto;
         }
@@ -77,7 +82,6 @@ namespace CMS.DataServices
         {
             //https://khalidabuhakmeh.com/multiple-result-sets-with-net-core-sql-server
             FormattableString sql = $@"
-
 WITH CHAIN
 AS (
 	SELECT ChildId as cId,
@@ -108,7 +112,10 @@ UNION
 		0 AS Level 
 	FROM ContentTypes WHERE Id = @id
 ORDER BY Level DESC
-SELECT * From Fields where ContentTypeId = @id
+SELECT * FROM ListItem 
+    WHERE BasicFieldId IN ( SELECT Id FROM Fields WHERE ContentTypeId = @id) 
+ORDER BY Value
+SELECT * From Fields WHERE ContentTypeId = @id
 ";
             DbConnection connection = null;
             try
@@ -164,6 +171,26 @@ SELECT * From Fields where ContentTypeId = @id
 
                 await reader.NextResultAsync();
 
+                // TODO: handle list items from the SQL
+                var itemsToField = new Dictionary<Guid, List<ListItemDto>>();
+                while (await reader.ReadAsync())
+                {
+                    var listItem = new ListItemDto()
+                    {
+                        Id = reader.GetGuid(reader.GetOrdinal("Id")),
+                        Value = reader.GetString(reader.GetOrdinal("Value")),
+                    };
+
+                    var basicFieldId = reader.GetGuid(reader.GetOrdinal("BasicFieldId"));
+                    if (!itemsToField.ContainsKey(basicFieldId))
+                    {
+                        itemsToField[basicFieldId] = new List<ListItemDto>();
+                    }
+                    itemsToField[basicFieldId].Add(listItem);
+                }
+
+                await reader.NextResultAsync();
+
                 while (await reader.ReadAsync())
                 {
                     var relatedToContentType = reader.GetGuid(reader.GetOrdinal("ContentTypeId"));
@@ -172,12 +199,22 @@ SELECT * From Fields where ContentTypeId = @id
                     {
                         Id = reader.GetGuid(reader.GetOrdinal("Id")),
                         Name = reader.GetString(reader.GetOrdinal("Name")),
-                        Value = reader.GetString(reader.GetOrdinal("Value")),
-                        Type = (CMS_TYPE)reader.GetInt32(reader.GetOrdinal("Type")),
+                        Type = reader.GetInt32(reader.GetOrdinal("Type")),
                     };
+
+                    if (!reader.IsDBNull(reader.GetOrdinal("Value")))
+                    {
+                        basicField.Value = reader.GetString(reader.GetOrdinal("Value"));
+                    }
+
+                    if (itemsToField.ContainsKey(basicField.Id))
+                    {
+                        basicField.ListItems = itemsToField[basicField.Id];
+                    }
 
                     rootElement.BasicFields.Add(basicField);
                 }
+
 
 
                 return rootElement;
@@ -195,6 +232,97 @@ SELECT * From Fields where ContentTypeId = @id
                     await connection.CloseAsync();
                 }
             }
+        }
+
+        public async Task<bool> UpdateContentFields(UpdateContentFields input)
+        {
+            var mapped = _mapper.Map<ICollection<BasicField>>(input.Fields);
+
+            foreach (BasicField mappedField in mapped)
+            {
+                try
+                {
+                    // Check Name Uniqueness of the field for that entity (get all names in a hashet and compare against it) !!!
+
+                    var service = this._processorFactory.GetFieldProcessor(mappedField.Type);
+                    string processedValue = await service.ProcessValue(input.EntityId, mappedField);
+                    mappedField.Value = processedValue;
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+            }
+
+            var entity = await _context.ContentTypes
+                .Include(e => e.BasicFields)
+                .ThenInclude(f => f.ListItems)
+                .FirstOrDefaultAsync(e => e.Id == input.EntityId);
+
+            if (entity == null)
+            {
+                throw new ArgumentException("Entity not found !");
+            }
+
+            // delete children
+            foreach (var existingField in entity.BasicFields.ToList())
+            {
+                if (!mapped.Any(f => f.Id == existingField.Id))
+                {
+                    entity.BasicFields.Remove(existingField);
+                }
+            }
+
+            // update and insert
+            foreach (var incomingField in mapped)
+            {
+                var existingField = entity.BasicFields
+                    .Where(f => f.Id == incomingField.Id && f.Id != Guid.Empty)
+                    .FirstOrDefault();
+
+                if (existingField != null)
+                {
+                    // update child
+                    // TODO: improvement, UI field can be locked. And on editing can be unlocked. 
+                    // this will serve as a flag, to know that is edited => not updating fields unnecessary
+                    incomingField.ContentTypeId = existingField.ContentTypeId;
+
+                    // https://github.com/dotnet/efcore/issues/28531#issuecomment-1199881859
+                    _context.Entry(existingField).CurrentValues.SetValues(incomingField);
+                    // manually update each list item for that field
+                    existingField.ListItems = new List<ListItem>();
+                    incomingField.ListItems.ToList()
+                        .ForEach(f =>
+                        {
+                            existingField.ListItems.Add(new ListItem()
+                            {
+                                Id = f.Id,
+                                Value = f.Value,
+                                BasicFieldId = f.BasicFieldId
+                            });
+                        });
+                }
+                else
+                {
+                    // insert
+
+                    var field = new BasicField()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = incomingField.Name,
+                        Value = incomingField.Value,
+                        Type = incomingField.Type,
+                    };
+                    _context.Entry(field).State = EntityState.Added;
+                    if (field.Type == CMS_TYPE.Array)
+                    {
+                        field.ListItems = incomingField.ListItems;
+                    }
+                    entity.BasicFields.Add(field);
+                }
+            }
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

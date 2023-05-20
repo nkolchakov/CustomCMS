@@ -26,20 +26,20 @@ const toBase64 = (file: any): Promise<any> => new Promise((resolve, reject) => {
 });
 
 export const serializeField = async (field: BasicFieldDto) => {
-    let serialized = "";
-    switch (field.type.toUpperCase()) {
-        case Cms_Type.Asset:
+    let serialized: string | null | undefined;
+    switch (field.type) {
+        case TYPE_NAMES.Asset:
             serialized = await toBase64(field.value);
             break;
-        case Cms_Type.DateTime:
+        case TYPE_NAMES.DateTime:
             serialized = moment(field.value).utc().valueOf().toString();
             break;
-        case Cms_Type.Text:
+        case TYPE_NAMES.Text:
             serialized = field.value;
             break;
         default:
             serialized = JSON.stringify(field.value);
             break;
     }
-    return serialized;
+    return serialized ?? undefined;
 }

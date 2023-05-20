@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Models.DTO;
+using Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -14,18 +16,7 @@ namespace Models.GqlCommon.Inputs
     public class UpdateContentFields
     {
         public Guid EntityId { get; set; }
-        public IEnumerable<ContentField> Fields { get; set; } = new List<ContentField>();
+        public IEnumerable<BasicFieldDto> Fields { get; set; } = new List<BasicFieldDto>();
         public UpdateContentFields() { }
     }
-
-    public class ContentField
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Value { get; set; }
-        public string Type { get; set; }
-
-    }
-
-
 }

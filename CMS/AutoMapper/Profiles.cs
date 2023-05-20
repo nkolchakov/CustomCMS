@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using CMS.GraphQL.Mutation;
 using CMS.Model;
+using Models;
 using Models.DTO;
+using Models.GqlCommon.Inputs;
 
 namespace CMS.AutoMapper
 {
@@ -10,6 +12,8 @@ namespace CMS.AutoMapper
         public Profiles()
         {
             CreateMap<BasicField, BasicFieldDto>();
+            CreateMap<BasicFieldDto, BasicField>();
+            CreateMap<ListItemDto, ListItem>();
             CreateMap<ContentType, ContentTypeDto>();
             CreateMap<Organization, OrganizationDto>()
                 .ForMember(dest => dest.Users,

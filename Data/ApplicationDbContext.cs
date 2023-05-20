@@ -59,8 +59,8 @@ namespace CMS.Data
                         OrganizationId = organizationsList[0].Id,
                         UserId = userslist[1].Id
                     });
-
             modelBuilder.Entity<Space>().HasData(spacesList);
+
             modelBuilder.Entity<BasicField>()
                 .HasMany(f => f.ListItems)
                 .WithOne(l => l.BasicField)

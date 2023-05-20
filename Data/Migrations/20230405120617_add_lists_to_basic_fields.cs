@@ -157,8 +157,7 @@ namespace CMS.Migrations
                 name: "ListItem",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BasicFieldId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },

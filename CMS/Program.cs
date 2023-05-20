@@ -5,6 +5,8 @@ using CMS.GraphQL.Query;
 using DataServices;
 using CMS.DataServices;
 using CMS.GraphQL.Mutation;
+using DataServices.Processors;
+using DataServices.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -32,7 +34,16 @@ builder.Services
     .AddSorting()
     .AddFiltering();
 
+// Factory + Field Processors
+builder.Services.AddScoped<FieldProcessorFactory>();
+builder.Services.AddScoped<FileFieldProcessor>()
+        .AddScoped<IFieldProcesssorService, FileFieldProcessor>(s => s.GetService<FileFieldProcessor>());
+builder.Services.AddScoped<ListFieldProcessor>()
+        .AddScoped<IFieldProcesssorService, ListFieldProcessor>(s => s.GetService<ListFieldProcessor>());
+builder.Services.AddScoped<PlainFieldProcessor>()
+        .AddScoped<IFieldProcesssorService, PlainFieldProcessor>(s => s.GetService<PlainFieldProcessor>());
 
+// ---
 builder.Services.AddScoped<IContentService, ContentService>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 

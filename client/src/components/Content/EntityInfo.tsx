@@ -6,8 +6,8 @@ import Box from "@mui/material/Box";
 import { Field, FieldArray, Formik } from "formik";
 import { cloneElement, useState } from "react";
 import { Form, useParams } from "react-router-dom";
-import { EMPTY_GUID } from "../../constants";
-import { BasicFieldDto, EntityByIdQuery, MutationUpdateContentFieldsArgs, UpdateContentFieldsPayload } from "../../generated-gql/graphql";
+import { EMPTY_GUID, TYPE_NAMES } from "../../constants";
+import { BasicFieldDto, Cms_Type, EntityByIdQuery, MutationUpdateContentFieldsArgs, UpdateContentFieldsPayload } from "../../generated-gql/graphql";
 import { AddDynamicTypeModal } from "../common/AddTypeModal";
 import { SetFieldValueCallback, TYPES_MAPPING } from "../common/ContentTypes";
 import { isValidGuid, serializeField } from "../common/helpers";
@@ -29,25 +29,28 @@ const EntityInfo = () => {
             }
         })
 
-    const newBasicField = (type: string, value: string = "", name: string = ""): { type: string, name: string, value: string } => {
+    const newBasicField = (type: number, value?: string, name?: string): { type: number, name?: string, value?: string } => {
         return { type, value, name }
     }
 
     const [open, setOpen] = useState(false)
-    const [selectedType, setSelectedType] = useState('')
+    const [selectedType, setSelectedType] = useState(-1)
     const [atPosition, setAtPosition] = useState(0)
     const onOpenModal = (atPosition: number) => {
         setOpen(true);
         setAtPosition(atPosition);
     }
 
-    const getField = (
-        value: Partial<BasicFieldDto> | undefined, index: number,
+    const getField = (value: BasicFieldDto, index: number,
         setFieldValueCb?: SetFieldValueCallback) => {
-        if (value?.type) {
-            const obj = TYPES_MAPPING[value.type.toLowerCase()];
+        if (value?.type !== undefined) {
+            const obj = TYPES_MAPPING[value.type!];
             if (obj && obj.component) {
-                const comp = obj.component(`basicFields[${index}].value`, value.value, setFieldValueCb);
+
+                let propertyName = parseInt(value.type.toString()) === TYPE_NAMES.Array ?
+                    `basicFields[${index}].listItems` : `basicFields[${index}].value`;
+
+                const comp = obj.component(propertyName, value, setFieldValueCb);
                 if (comp) {
                     const componentWithId = cloneElement(comp, { id: `value-${index}` });
                     return componentWithId;
@@ -55,6 +58,33 @@ const EntityInfo = () => {
             }
         }
         return null
+    }
+
+    const handleSubmit = async (basicFields: BasicFieldDto[]) => {
+        const serializedFields = await Promise.all(
+            basicFields.map(async field => {
+                return Object.assign({},
+                    field,
+                    {
+                        id: isValidGuid(field.id) ? field.id : EMPTY_GUID,
+                        value: await serializeField(field),
+                        type: parseInt(field.type.toString()), // sometimes type comes as string, ensure to be a number
+                        __typename: undefined,
+                        listItems: field.listItems?.map(li => {
+                            return Object.assign({}, li, { __typename: undefined });
+                        })
+                    })
+            }));
+
+        console.log(serializedFields)
+        mutationFunction({
+            variables: {
+                input: {
+                    entityId,
+                    fields: serializedFields
+                }
+            }
+        })
     }
 
     return (
@@ -69,29 +99,7 @@ const EntityInfo = () => {
                 <Formik
                     enableReinitialize={true}
                     initialValues={data?.entityById!}
-                    onSubmit={async ({ basicFields }) => {
-
-                        const serializedFields = await Promise.all(
-                            basicFields.map(async field => {
-                                return Object.assign({},
-                                    field,
-                                    {
-                                        id: isValidGuid(field.id) ? field.id : EMPTY_GUID,
-                                        value: await serializeField(field),
-                                        __typename: undefined
-                                    })
-                            }));
-
-                        console.log(serializedFields)
-                        mutationFunction({
-                            variables: {
-                                input: {
-                                    entityId,
-                                    fields: serializedFields
-                                }
-                            }
-                        })
-                    }}
+                    onSubmit={({ basicFields }) => handleSubmit(basicFields)}
                 >
                     {({ values, submitForm, setFieldValue }) => (
                         <Form>
@@ -143,7 +151,7 @@ const EntityInfo = () => {
                                                 type="button"
                                                 variant='outlined'
                                                 size='medium'
-                                                onClick={() => push(newBasicField("text"))}>
+                                                onClick={() => push(newBasicField(0))}>
                                                 {/* show this when user has deleted all fields */}
                                                 Add new field
                                             </Button>
@@ -151,11 +159,11 @@ const EntityInfo = () => {
                                         <AddDynamicTypeModal
                                             open={open}
                                             onClose={() => { setOpen(false) }}
-                                            onAddInput={(selectedType: string) => {
+                                            onAddInput={(selectedType: number) => {
                                                 setSelectedType(selectedType)
                                                 insert(atPosition + 1, newBasicField(selectedType));
                                                 setOpen(false);
-                                                setSelectedType("");
+                                                setSelectedType(-1);
                                             }}
                                             onSubmit={(values: any) => console.log(values)}
                                             isLoading={loading}

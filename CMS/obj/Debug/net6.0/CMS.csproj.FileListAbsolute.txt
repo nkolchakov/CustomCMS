@@ -116,3 +116,4 @@ C:\projects\CustomMS\CMS\obj\Debug\net6.0\refint\CMS.dll
 C:\projects\CustomMS\CMS\obj\Debug\net6.0\CMS.pdb
 C:\projects\CustomMS\CMS\obj\Debug\net6.0\CMS.genruntimeconfig.cache
 C:\projects\CustomMS\CMS\obj\Debug\net6.0\ref\CMS.dll
+C:\projects\CustomMS\CMS\bin\Debug\net6.0\Newtonsoft.Json.dll
